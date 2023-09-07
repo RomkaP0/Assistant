@@ -6,12 +6,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.romka_po.assistent.presentation.screens.dashboard.DashboardScreen
+import com.yandex.mapkit.mapview.MapView
 
 @Composable
-fun AppNavHost(modifier: Modifier, navController: NavHostController) {
+fun AppNavHost(
+    modifier: Modifier,
+    navController: NavHostController,
+    mapState: MapView
+) {
     NavHost(modifier = modifier, navController = navController, startDestination = "DASHBOARD"){
         composable("DASHBOARD"){
-            DashboardScreen()
+            DashboardScreen(mapState)
         }
     }
 }

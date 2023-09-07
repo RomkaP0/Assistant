@@ -1,5 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.2.0-beta01" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.10" apply false
+    id("com.android.application") version "8.3.0-alpha02" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.10" apply false
+}
+
+configurations.all{
+    resolutionStrategy{
+        force("com.google.android.gms:play-services-location:21.0.1")
+    }
 }
