@@ -13,24 +13,9 @@ import com.yandex.mapkit.mapview.MapView
 
 @Composable
 fun DashboardScreen(mapState: MapView) {
-//    val map = MapKitFactory.getInstance().createUserLocationLayer(mapState.mapWindow)
-//    map.isVisible = true
-//    MapKitFactory.getInstance().createLocationManager().subscribeForLocationUpdates(0.0,0, 0.0, true, FilteringMode.ON, object :LocationListener{
-//        override fun onLocationUpdated(location: Location) {
-//            Log.d("TagCheck", "LocationUpdated " + location.position.longitude);
-//            Log.d("TagCheck", "LocationUpdated " + location.position.latitude);
-//        }
-//
-//        override fun onLocationStatusUpdated(p0: LocationStatus) {
-//        }
-//
-//    })
     Column {
         AndroidView(modifier = Modifier.fillMaxHeight(0.4f).padding(16.dp).clip(RoundedCornerShape(16.dp)), factory = { mapState }) { mapView ->
-//            mapView.map.move(
-//                CameraPosition()
-//            )
+
         }
-//        LazyVerticalGrid()
     }
 }
