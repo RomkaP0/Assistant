@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Assistent</string>
+    <string name="dashboard">Панель</string>
+    <string name="settings">Настройки</string>
 </resources>
