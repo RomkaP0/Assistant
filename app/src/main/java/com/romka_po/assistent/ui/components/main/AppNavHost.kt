@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.romka_po.assistent.presentation.screens.dashboard.DashboardScreen
+import com.romka_po.assistent.ui.screens.dashboard.DashboardScreen
 import com.yandex.mapkit.mapview.MapView
 
 @Composable

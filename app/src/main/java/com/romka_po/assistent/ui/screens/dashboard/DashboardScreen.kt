@@ -1,4 +1,4 @@
-package com.romka_po.assistent.presentation.screens.dashboard
+package com.romka_po.assistent.ui.screens.dashboard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
