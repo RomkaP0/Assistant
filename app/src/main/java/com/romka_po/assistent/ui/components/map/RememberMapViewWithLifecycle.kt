@@ -8,8 +8,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.romka_po.assistent.R
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
 
 @Composable
 fun rememberMapViewWithLifecycle(): MapView {
@@ -23,10 +27,7 @@ fun rememberMapViewWithLifecycle(): MapView {
 //    val userLocation = remember {
 //        MapKitFactory.getInstance().createUserLocationLayer(mapView.mapWindow)
 //    }
-//
-    val maf = MapKitFactory.getInstance().createUserLocationLayer(mapView.mapWindow)
-    maf.isVisible = true
-    maf.cameraPosition()
+
 //    // Makes MapView follow the lifecycle of this composable
     val lifecycleObserver = rememberMapLifecycleObserver(mapView)
 //
@@ -40,6 +41,8 @@ fun rememberMapViewWithLifecycle(): MapView {
             lifecycle.removeObserver(lifecycleObserver)
         }
     }
+
+
     // returning map view on below line.
     return mapView
 }
