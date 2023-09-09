@@ -1,4 +1,4 @@
-package com.romka_po.assistent.presentation.screens.main
+package com.romka_po.assistent.ui.screens.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
