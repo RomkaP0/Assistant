@@ -80,6 +80,8 @@ dependencies {
 
     implementation ("com.yandex.android:maps.mobile:4.3.2-full")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("ru.dgis.sdk:sdk-full:7.3.1")
+
 
 
 
