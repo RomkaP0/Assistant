@@ -1,7 +1,7 @@
 package com.romka_po.assistent.di
 
-import com.romka_po.assistent.domain.MainRepository
-import com.romka_po.assistent.domain.MainRepositoryImpl
+import com.romka_po.assistent.domain.repository.MainRepository
+import com.romka_po.assistent.domain.repository.MainRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

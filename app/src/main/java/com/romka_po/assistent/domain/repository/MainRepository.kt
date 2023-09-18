@@ -1,4 +1,4 @@
-package com.romka_po.assistent.domain
+package com.romka_po.assistent.domain.repository
 
 import com.romka_po.assistent.model.theme.TypeTheme
 import kotlinx.coroutines.flow.Flow

@@ -23,10 +23,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,14 +36,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.R
 import com.romka_po.assistent.model.theme.TypeTheme
 
-@ExperimentalMaterial3Api
 @Composable
 fun SettingsScreen() {
     val typesTheme = TypeTheme.entries.toTypedArray()
-    var selectedIndex by remember { mutableStateOf(0) }
 
     val viewModel:SettingsViewModel = hiltViewModel()
 
+    val currentTheme = viewModel.currentTheme.collectAsState()
 
     Column(modifier = Modifier, verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Top)) {
         Row(
@@ -72,16 +68,15 @@ fun SettingsScreen() {
                 Text(modifier = Modifier, text = "Изменить данные >")
             }
         }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(modifier = Modifier.fillMaxWidth().padding(2.dp), horizontalArrangement = Arrangement.SpaceBetween) {
             Text("")
             SingleChoiceSegmentedButtonRow {
                 typesTheme.forEachIndexed { index, typeTheme ->
                     SegmentedButton(
                         onClick = {
-                            selectedIndex = index
                             viewModel.changeTheme(typeTheme = typeTheme)
                                   },
-                        selected = index == selectedIndex,
+                        selected = typeTheme == currentTheme.value,
                         shape = SegmentedButtonDefaults.itemShape(
                             index = index,
                             count = typesTheme.size
