@@ -6,8 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.romka_po.assistent.model.nav.Screens
-import com.romka_po.assistent.presentation.screens.settings.SettingsScreen
+import com.romka_po.assistent.ui.screens.catalog.CatalogScreen
 import com.romka_po.assistent.ui.screens.dashboard.DashboardScreen
+import com.romka_po.assistent.ui.screens.settings.SettingsScreen
 import com.yandex.mapkit.mapview.MapView
 
 @Composable
@@ -22,6 +23,9 @@ fun AppNavHost(
         }
         composable(Screens.Settings.route){
             SettingsScreen()
+        }
+        composable(Screens.Catalog.route){
+            CatalogScreen()
         }
     }
 }

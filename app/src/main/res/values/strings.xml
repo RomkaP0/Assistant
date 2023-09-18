@@ -2,4 +2,5 @@
     <string name="app_name">Assistent</string>
     <string name="dashboard">Панель</string>
     <string name="settings">Настройки</string>
+    <string name="catalog">Каталог</string>
 </resources>

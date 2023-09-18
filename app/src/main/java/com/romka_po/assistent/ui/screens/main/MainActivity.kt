@@ -4,6 +4,8 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,6 +16,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -21,33 +24,49 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.romka_po.assistent.model.nav.Screens
+import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.main.AppNavHost
 import com.romka_po.assistent.ui.components.map.rememberMapViewWithLifecycle
 import com.romka_po.assistent.ui.theme.AssistentTheme
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.user_location.UserLocationLayer
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    lateinit var userLocation:UserLocationLayer
-    private val screens = listOf(Screens.DashBoard, Screens.Settings)
+    private lateinit var userLocation: UserLocationLayer
+    private val screens = listOf(Screens.DashBoard, Screens.Catalog, Screens.Settings)
+    private val viewModel: MainViewModel by viewModels()
+
+    private val currentTheme = mutableStateOf(TypeTheme.AUTO)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestLocationPermission()
 
-
+        lifecycleScope.launch {
+            viewModel.currentTheme.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .distinctUntilChanged().collect {
+                    currentTheme.value = it
+            }
+        }
 
         MapKitFactory.initialize(this)
 
-        setContent {
+        setContent() {
             val navController = rememberNavController()
             val mapState = rememberMapViewWithLifecycle()
+
+
             val m = MapKitFactory.getInstance()
             if (!::userLocation.isInitialized) {
                 userLocation = m.createUserLocationLayer(mapState.mapWindow)
@@ -56,13 +75,17 @@ class MainActivity : ComponentActivity() {
                 userLocation.isAutoZoomEnabled = true
                 userLocation.isHeadingEnabled = true
             }
-            AssistentTheme {
+            AssistentTheme(darkTheme = when (currentTheme.value){
+                TypeTheme.LIGHT -> false
+                TypeTheme.DARK -> true
+                TypeTheme.AUTO -> isSystemInDarkTheme()
+            }) {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.background,
                     bottomBar = {
-                        NavigationBar() {
+                        NavigationBar {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
                             val currentDestination = navBackStackEntry?.destination
                             screens.forEach { screen ->
