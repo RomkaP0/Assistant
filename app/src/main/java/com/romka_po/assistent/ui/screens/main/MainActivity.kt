@@ -1,7 +1,10 @@
 package com.romka_po.assistent.ui.screens.main
 
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.PointF
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -30,21 +33,34 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.romka_po.assistent.R
 import com.romka_po.assistent.model.nav.Screens
 import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.main.AppNavHost
 import com.romka_po.assistent.ui.components.map.rememberMapViewWithLifecycle
 import com.romka_po.assistent.ui.theme.AssistentTheme
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.layers.ObjectEvent
+import com.yandex.mapkit.map.CompositeIcon
+import com.yandex.mapkit.map.IconStyle
+import com.yandex.mapkit.map.RotationType
+import com.yandex.mapkit.mapview.MapView
 import com.yandex.mapkit.user_location.UserLocationLayer
+import com.yandex.mapkit.user_location.UserLocationObjectListener
+import com.yandex.mapkit.user_location.UserLocationView
+import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
 
-    private lateinit var userLocation: UserLocationLayer
+@AndroidEntryPoint
+class MainActivity : ComponentActivity(), UserLocationObjectListener {
+
+    private lateinit var userLocationLayer: UserLocationLayer
+    private lateinit var mapState: MapView
+
+
     private val screens = listOf(Screens.DashBoard, Screens.Catalog, Screens.Settings)
     private val viewModel: MainViewModel by viewModels()
 
@@ -64,17 +80,19 @@ class MainActivity : ComponentActivity() {
 
         setContent() {
             val navController = rememberNavController()
-            val mapState = rememberMapViewWithLifecycle()
+            mapState = rememberMapViewWithLifecycle()
+            if (!(::userLocationLayer.isInitialized && userLocationLayer.isValid)) {
+                val mapKit = MapKitFactory.getInstance()
 
+                userLocationLayer = mapKit.createUserLocationLayer(mapState.mapWindow).apply {
+                    isVisible = true
+                    isHeadingEnabled = true
+                    isAutoZoomEnabled = true
+                    setObjectListener(this@MainActivity)
 
-            val m = MapKitFactory.getInstance()
-            if (!::userLocation.isInitialized) {
-                userLocation = m.createUserLocationLayer(mapState.mapWindow)
-                userLocation.cameraPosition()
-                userLocation.isVisible = true
-                userLocation.isAutoZoomEnabled = true
-                userLocation.isHeadingEnabled = true
+                }
             }
+
             AssistentTheme(darkTheme = when (currentTheme.value){
                 TypeTheme.LIGHT -> false
                 TypeTheme.DARK -> true
@@ -138,5 +156,50 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
+
+    override fun onObjectAdded(userLocationView: UserLocationView) {
+        userLocationLayer.setAnchor(
+            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.5).toFloat()),
+            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.83).toFloat())
+        )
+
+        userLocationView.arrow.setIcon(
+            ImageProvider.fromResource(
+                this, R.drawable.car
+            )
+
+        )
+
+        val pinIcon: CompositeIcon = userLocationView.pin.useCompositeIcon()
+
+        pinIcon.setIcon(
+            "icon",
+            ImageProvider.fromResource(this, R.drawable.new_moon),
+            IconStyle().setAnchor(PointF(0f, 0f))
+                .setRotationType(RotationType.NO_ROTATION)
+                .setZIndex(0f)
+                .setScale(1f)
+        )
+
+        pinIcon.setIcon(
+            "pin",
+            ImageProvider.fromResource(this, R.drawable.new_moon),
+            IconStyle().setAnchor(PointF(0.5f, 0.5f))
+                .setRotationType(RotationType.ROTATE)
+                .setZIndex(1f)
+                .setScale(0.5f)
+        )
+
+        userLocationView.accuracyCircle.fillColor = Color.BLUE and -0x66000001
+    }
+
+    override fun onObjectRemoved(p0: UserLocationView) {
+        Log.i("onObjectRemoved", "onObjectRemoved")
+    }
+
+    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
+        Log.i("onObjectUpdated", "onObjectUpdated")
+    }
+
 }
 

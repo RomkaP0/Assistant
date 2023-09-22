@@ -8,12 +8,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.romka_po.assistent.R
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.MapObjectTapListener
+import com.yandex.mapkit.location.LocationListener
+import com.yandex.mapkit.location.LocationManager
 import com.yandex.mapkit.mapview.MapView
-import com.yandex.runtime.image.ImageProvider
+
+private var myLocationListener: LocationListener? = null
+private var locationManager: LocationManager? = null
+private var myLocation: Point? = null
+val COMFORTABLE_ZOOM_LEVEL = 18F
+private val DESIRED_ACCURACY = 0.0
+private val MINIMAL_TIME: Long = 0
+private val MINIMAL_DISTANCE = 50.0
+private val USE_IN_BACKGROUND = false
+lateinit var mapView: MapView
 
 @Composable
 fun rememberMapViewWithLifecycle(): MapView {
@@ -21,11 +30,30 @@ fun rememberMapViewWithLifecycle(): MapView {
     // on below line initializing
     // our maps view with id.
 
-    val mapView = remember {
+    mapView = remember {
         MapView(context)
     }
-//    val userLocation = remember {
-//        MapKitFactory.getInstance().createUserLocationLayer(mapView.mapWindow)
+
+//    locationManager = MapKitFactory.getInstance().createLocationManager();
+//    myLocationListener = object : LocationListener {
+//        override fun onLocationUpdated(location: Location) {
+//            if (myLocation == null) {
+//                moveCamera(location.getPosition(), COMFORTABLE_ZOOM_LEVEL);
+//            }
+//            myLocation = location.getPosition();
+//            Log.w(
+//                ContentValues.TAG,
+//                "my location - " + myLocation!!.latitude + "," + myLocation!!.longitude
+//            );
+//            mapView.moveToUser()
+//        }
+//
+//        override fun onLocationStatusUpdated(locationStatus: LocationStatus) {
+//            if (locationStatus == LocationStatus.NOT_AVAILABLE) {
+//                Toast.makeText(context, "Not Availeerf", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//
 //    }
 
 //    // Makes MapView follow the lifecycle of this composable
@@ -57,12 +85,15 @@ fun rememberMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
                 Lifecycle.Event.ON_START -> {
                     MapKitFactory.getInstance().onStart()
                     mapView.onStart()
+//                    subscribeToLocationUpdate();
+
                     Log.d("FEFEF", "FEFEFE")
                 }
 
-                Lifecycle.Event.ON_STOP -> {
+                Lifecycle.Event.ON_PAUSE -> {
                     mapView.onStop()
                     MapKitFactory.getInstance().onStop()
+//                    myLocationListener?.let { locationManager?.unsubscribe(it) };
                     Log.d("WEEWEWEWE", "WEWEWEWEW")
                 }
 
@@ -70,3 +101,34 @@ fun rememberMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
             }
         }
     }
+
+//private fun subscribeToLocationUpdate() {
+//    if (locationManager != null && myLocationListener != null) {
+//        locationManager!!.subscribeForLocationUpdates(
+//            DESIRED_ACCURACY,
+//            MINIMAL_TIME,
+//            MINIMAL_DISTANCE,
+//            USE_IN_BACKGROUND,
+//            FilteringMode.OFF,
+//            myLocationListener!!
+//        )
+//    }
+//}
+//
+//private fun moveCamera(point: Point, zoom: Float) {
+//    mapView.map.move(
+//        CameraPosition(point, zoom, 0.0f, 0.0f),
+//        Animation(Animation.Type.SMOOTH, 1F),
+//        null
+//    )
+//}
+//
+//fun MapView.moveToUser() {
+//    if (myLocation == null) {
+//        Log.i(TAG, "moveToUser: ")
+//    } else {
+//        Log.d(TAG, "${myLocation!!.latitude} ${myLocation!!.longitude}")
+//        moveCamera(myLocation!!, COMFORTABLE_ZOOM_LEVEL);
+//
+//    }
+//}
