@@ -1,9 +1,7 @@
 package com.romka_po.assistent.ui.components.shared
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -14,21 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun HorizontalBottomCard(
+fun VerticalBottomCard(
     modifier: Modifier = Modifier,
     padding: Int = 16,
     corner: Int = 16,
     color: Color = MaterialTheme.colorScheme.surface,
     content: @Composable () -> Unit,
-    ) {
-    Row(
+) {
+    Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = padding.dp)
             .clip(RoundedCornerShape(corner.dp))
-            .background(color.copy(0.4f))
-            .padding(padding.dp),
-        horizontalArrangement = Arrangement.spacedBy(padding.dp)
+            .padding(1.dp)
+            .border(2.dp, color.copy(0.2f), RoundedCornerShape(corner.dp))
+            .padding(padding.dp)
     ) {
         content()
     }

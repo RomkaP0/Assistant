@@ -19,4 +19,7 @@ sealed class Screens(
 
     data object Settings :
         Screens("settings", R.string.settings, R.drawable.settings_fill1_wght400_grad0_opsz48)
+
+    data object Chart :
+        Screens("chart", R.string.stats, R.drawable.bar_chart_fill0_wght400_grad0_opsz48)
 }

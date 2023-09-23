@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity(), UserLocationObjectListener {
     private lateinit var mapState: MapView
 
 
-    private val screens = listOf(Screens.DashBoard, Screens.Catalog, Screens.Settings)
+    private val screens = listOf(Screens.DashBoard, Screens.Catalog, Screens.Chart, Screens.Settings)
     private val viewModel: MainViewModel by viewModels()
 
     private val currentTheme = mutableStateOf(TypeTheme.AUTO)

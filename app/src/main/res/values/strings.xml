@@ -3,4 +3,5 @@
     <string name="dashboard">Панель</string>
     <string name="settings">Настройки</string>
     <string name="catalog">Каталог</string>
+    <string name="stats">Статистика</string>
 </resources>
