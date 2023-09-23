@@ -38,11 +38,6 @@ import com.romka_po.assistent.ui.components.shared.drawColoredShadow
 import com.yandex.mapkit.mapview.MapView
 
 
-enum class DragAnchors(val fraction: Float) {
-    Start(0.6f),
-    End(1f),
-}
-
 @Composable
 fun DashboardScreen(mapState: MapView) {
 

@@ -53,7 +53,7 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.0-alpha05"
+    val compose = "1.6.0-alpha06"
     val composeBom = "2023.09.00"
 
     val navigation = "2.7.2"
@@ -70,7 +70,7 @@ dependencies {
     /*Compose*/
     implementation(platform("androidx.compose:compose-bom:${composeBom}"))
     implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.compose.material3:material3:1.2.0-alpha07")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha08")
     implementation("androidx.compose.foundation:foundation:$compose")
     androidTestImplementation(platform("androidx.compose:compose-bom:${composeBom}"))
 
