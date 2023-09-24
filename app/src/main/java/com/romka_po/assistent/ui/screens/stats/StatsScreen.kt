@@ -2,7 +2,11 @@
 
 package com.romka_po.assistent.ui.screens.stats
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -21,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -49,6 +54,8 @@ val blocks = listOf(
 fun StatsScreen() {
     val viewModel: StatsViewModel = hiltViewModel()
 
+    val animTime = 400
+
     val selectedCard = viewModel.selectedCard.collectAsState()
 
     TopWithBottomCard(content = { /*TODO*/ }) {
@@ -63,7 +70,7 @@ fun StatsScreen() {
                 Brush.verticalGradient()
                 Column(
                     modifier = Modifier
-                        .animateContentSize()
+                        .animateContentSize(tween(animTime))
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
@@ -86,9 +93,16 @@ fun StatsScreen() {
                         text = str,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    if (index == selectedCard.value) {
-                        blocks.forEach {
-                            TextWithPoint(modifier = Modifier.padding(start = 40.dp), text = it)
+                    AnimatedVisibility(
+                        visible = index == selectedCard.value,
+                        enter = expandVertically(tween(animTime), expandFrom = Alignment.Top),
+                        exit = shrinkVertically(tween(animTime), shrinkTowards = Alignment.Top)
+                    )
+                    {
+                        Column {
+                            blocks.forEach {
+                                TextWithPoint(modifier = Modifier.padding(start = 40.dp), text = it)
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.height(32.dp))
