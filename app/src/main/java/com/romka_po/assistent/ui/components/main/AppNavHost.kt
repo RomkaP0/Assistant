@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.romka_po.assistent.ui.components.main
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -10,26 +15,25 @@ import com.romka_po.assistent.ui.screens.catalog.CatalogScreen
 import com.romka_po.assistent.ui.screens.dashboard.DashboardScreen
 import com.romka_po.assistent.ui.screens.settings.SettingsScreen
 import com.romka_po.assistent.ui.screens.stats.StatsScreen
-import com.yandex.mapkit.mapview.MapView
 
 @Composable
 fun AppNavHost(
     modifier: Modifier,
     navController: NavHostController,
-    mapState: MapView
+    state: BottomSheetScaffoldState
 ) {
-    NavHost(modifier = modifier, navController = navController, startDestination = Screens.DashBoard.route){
+    NavHost(modifier = modifier.fillMaxSize(), navController = navController, startDestination = Screens.DashBoard.route){
         composable(Screens.DashBoard.route){
-            DashboardScreen(mapState)
+            DashboardScreen(state)
         }
         composable(Screens.Settings.route){
             SettingsScreen()
         }
         composable(Screens.Catalog.route){
-            CatalogScreen()
+            CatalogScreen(state)
         }
         composable(Screens.Chart.route){
-            StatsScreen()
+            StatsScreen(state)
         }
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,7 +32,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.ui.components.detail.TextWithPoint
@@ -49,16 +49,15 @@ val blocks = listOf(
     "Аккумуляторная батарея"
 )
 
-@Preview(showBackground = true)
 @Composable
-fun StatsScreen() {
+fun StatsScreen(state: BottomSheetScaffoldState) {
     val viewModel: StatsViewModel = hiltViewModel()
 
     val animTime = 400
 
     val selectedCard = viewModel.selectedCard.collectAsState()
 
-    TopWithBottomCard(content = { /*TODO*/ }) {
+    TopWithBottomCard(state, content = { /*TODO*/ }) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(

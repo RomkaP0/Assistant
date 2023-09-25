@@ -24,6 +24,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,23 +35,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.viewinterop.AndroidViewBinding
+import com.romka_po.assistent.databinding.VkmapBinding
 import com.romka_po.assistent.ui.components.shared.HorizontalBottomCard
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
-import com.yandex.mapkit.mapview.MapView
 
 
 @Composable
-fun DashboardScreen(mapState: MapView) {
-    TopWithBottomCard(content = {
+fun DashboardScreen(state: BottomSheetScaffoldState) {
+//    val state = rememberBottomSheetScaffoldState(SheetState(true, LocalDensity.current))
+
+    TopWithBottomCard(state = state, content = {
         Box(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
         ) {
-            AndroidView(factory = { mapState }) { mapView ->
+            AndroidViewBinding(factory = VkmapBinding::inflate){
+
             }
             Box(
                 modifier = Modifier
@@ -70,7 +74,7 @@ fun DashboardScreen(mapState: MapView) {
                 )
             }
         }
-    }, sheetContent = {
+    }) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top)
@@ -102,5 +106,5 @@ fun DashboardScreen(mapState: MapView) {
             }
             Spacer(modifier = Modifier.height(1000.dp))
         }
-    })
+    }
 }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.romka_po.assistent.ui.screens.catalog
 
 import androidx.compose.foundation.clickable
@@ -12,6 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -27,12 +31,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 
 @Composable
-fun CatalogScreen() {
+fun CatalogScreen(state: BottomSheetScaffoldState) {
     val viewModel: CatalogViewModel = hiltViewModel()
 
     val listCars = viewModel.listCars.collectAsState()
 
-    TopWithBottomCard(content = {
+    TopWithBottomCard(state, content = {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

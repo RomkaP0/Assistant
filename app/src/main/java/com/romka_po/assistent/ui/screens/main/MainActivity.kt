@@ -1,10 +1,9 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.romka_po.assistent.ui.screens.main
 
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.PointF
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,14 +11,18 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -33,32 +36,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.romka_po.assistent.R
 import com.romka_po.assistent.model.nav.Screens
 import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.main.AppNavHost
-import com.romka_po.assistent.ui.components.map.rememberMapViewWithLifecycle
 import com.romka_po.assistent.ui.theme.AssistentTheme
-import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.layers.ObjectEvent
-import com.yandex.mapkit.map.CompositeIcon
-import com.yandex.mapkit.map.IconStyle
-import com.yandex.mapkit.map.RotationType
-import com.yandex.mapkit.mapview.MapView
-import com.yandex.mapkit.user_location.UserLocationLayer
-import com.yandex.mapkit.user_location.UserLocationObjectListener
-import com.yandex.mapkit.user_location.UserLocationView
-import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), UserLocationObjectListener {
+class MainActivity : ComponentActivity() {
 
-    private lateinit var userLocationLayer: UserLocationLayer
-    private lateinit var mapState: MapView
+//    private lateinit var userLocationLayer: UserLocationLayer
+//    private lateinit var mapState: MapView
 
 
     private val screens = listOf(Screens.DashBoard, Screens.Catalog, Screens.Chart, Screens.Settings)
@@ -76,22 +67,25 @@ class MainActivity : ComponentActivity(), UserLocationObjectListener {
             }
         }
 
-        MapKitFactory.initialize(this)
+//        MapKitFactory.initialize(this)
 
-        setContent() {
+        setContent {
+
+            val height = remember{ mutableStateOf(BottomSheetDefaults.SheetPeekHeight) }
             val navController = rememberNavController()
-            mapState = rememberMapViewWithLifecycle()
-            if (!(::userLocationLayer.isInitialized && userLocationLayer.isValid)) {
-                val mapKit = MapKitFactory.getInstance()
-
-                userLocationLayer = mapKit.createUserLocationLayer(mapState.mapWindow).apply {
-                    isVisible = true
-                    isHeadingEnabled = true
-                    isAutoZoomEnabled = true
-                    setObjectListener(this@MainActivity)
-
-                }
-            }
+            val state = rememberBottomSheetScaffoldState()
+//            mapState = rememberMapViewWithLifecycle()
+//            if (!(::userLocationLayer.isInitialized && userLocationLayer.isValid)) {
+//                val mapKit = MapKitFactory.getInstance()
+//
+//                userLocationLayer = mapKit.createUserLocationLayer(mapState.mapWindow).apply {
+//                    isVisible = true
+//                    isHeadingEnabled = true
+//                    isAutoZoomEnabled = true
+//                    setObjectListener(this@MainActivity)
+//
+//                }
+//            }
 
             AssistentTheme(darkTheme = when (currentTheme.value){
                 TypeTheme.LIGHT -> false
@@ -136,8 +130,8 @@ class MainActivity : ComponentActivity(), UserLocationObjectListener {
                         }
                     }
                 ) { padding ->
-                    AppNavHost(modifier = Modifier.padding(padding), navController, mapState)
-                }
+                        AppNavHost(modifier = Modifier.padding(padding), navController, state)
+                    }
             }
 
         }
@@ -156,50 +150,50 @@ class MainActivity : ComponentActivity(), UserLocationObjectListener {
             )
         }
     }
-
-    override fun onObjectAdded(userLocationView: UserLocationView) {
-        userLocationLayer.setAnchor(
-            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.5).toFloat()),
-            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.83).toFloat())
-        )
-
-        userLocationView.arrow.setIcon(
-            ImageProvider.fromResource(
-                this, R.drawable.car
-            )
-
-        )
-
-        val pinIcon: CompositeIcon = userLocationView.pin.useCompositeIcon()
-
-        pinIcon.setIcon(
-            "icon",
-            ImageProvider.fromResource(this, R.drawable.new_moon),
-            IconStyle().setAnchor(PointF(0f, 0f))
-                .setRotationType(RotationType.NO_ROTATION)
-                .setZIndex(0f)
-                .setScale(1f)
-        )
-
-        pinIcon.setIcon(
-            "pin",
-            ImageProvider.fromResource(this, R.drawable.new_moon),
-            IconStyle().setAnchor(PointF(0.5f, 0.5f))
-                .setRotationType(RotationType.ROTATE)
-                .setZIndex(1f)
-                .setScale(0.5f)
-        )
-
-        userLocationView.accuracyCircle.fillColor = Color.BLUE and -0x66000001
-    }
-
-    override fun onObjectRemoved(p0: UserLocationView) {
-        Log.i("onObjectRemoved", "onObjectRemoved")
-    }
-
-    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
-        Log.i("onObjectUpdated", "onObjectUpdated")
-    }
+//
+//    override fun onObjectAdded(userLocationView: UserLocationView) {
+//        userLocationLayer.setAnchor(
+//            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.5).toFloat()),
+//            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.83).toFloat())
+//        )
+//
+//        userLocationView.arrow.setIcon(
+//            ImageProvider.fromResource(
+//                this, R.drawable.car
+//            )
+//
+//        )
+//
+//        val pinIcon: CompositeIcon = userLocationView.pin.useCompositeIcon()
+//
+//        pinIcon.setIcon(
+//            "icon",
+//            ImageProvider.fromResource(this, R.drawable.new_moon),
+//            IconStyle().setAnchor(PointF(0f, 0f))
+//                .setRotationType(RotationType.NO_ROTATION)
+//                .setZIndex(0f)
+//                .setScale(1f)
+//        )
+//
+//        pinIcon.setIcon(
+//            "pin",
+//            ImageProvider.fromResource(this, R.drawable.new_moon),
+//            IconStyle().setAnchor(PointF(0.5f, 0.5f))
+//                .setRotationType(RotationType.ROTATE)
+//                .setZIndex(1f)
+//                .setScale(0.5f)
+//        )
+//
+//        userLocationView.accuracyCircle.fillColor = Color.BLUE and -0x66000001
+//    }
+//
+//    override fun onObjectRemoved(p0: UserLocationView) {
+//        Log.i("onObjectRemoved", "onObjectRemoved")
+//    }
+//
+//    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
+//        Log.i("onObjectUpdated", "onObjectUpdated")
+//    }
 
 }
 

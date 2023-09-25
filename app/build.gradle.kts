@@ -1,10 +1,9 @@
 plugins {
     id("com.android.application")
+    id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -42,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -61,7 +61,7 @@ dependencies {
 
     val navigation = "2.7.2"
 
-    val hilt = "2.47"
+    val hilt = "2.48"
 
     val retrofit = "2.9.0"
 
@@ -79,6 +79,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.material3:material3:$material3")
     implementation("androidx.compose.foundation:foundation:$compose")
+    implementation("androidx.compose.ui:ui-viewbinding:$compose")
     androidTestImplementation(platform("androidx.compose:compose-bom:${composeBom}"))
 
     /*Compose UI*/
@@ -105,9 +106,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     /*Map*/
-    implementation ("com.yandex.android:maps.mobile:4.3.2-full")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
-    implementation ("ru.dgis.sdk:sdk-full:7.3.1")
     implementation("ru.mail.maps:mapkit:1.0.308")
 
 
