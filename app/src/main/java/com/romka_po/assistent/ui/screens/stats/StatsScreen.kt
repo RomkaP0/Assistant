@@ -24,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.ui.components.detail.TextWithPoint
@@ -50,14 +52,14 @@ val blocks = listOf(
 )
 
 @Composable
-fun StatsScreen(state: BottomSheetScaffoldState) {
+fun StatsScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
     val viewModel: StatsViewModel = hiltViewModel()
 
     val animTime = 400
 
     val selectedCard = viewModel.selectedCard.collectAsState()
 
-    TopWithBottomCard(state, content = { /*TODO*/ }) {
+    TopWithBottomCard(state, height, content = { /*TODO*/ }) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(

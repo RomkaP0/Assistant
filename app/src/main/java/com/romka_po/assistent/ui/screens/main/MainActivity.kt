@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -130,7 +131,11 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { padding ->
-                        AppNavHost(modifier = Modifier.padding(padding), navController, state)
+                    BoxWithConstraints(Modifier.fillMaxSize().padding(padding)) {
+                        val scope = this
+                        height.value = (scope.maxHeight.value*0.6).dp
+                        AppNavHost(modifier = Modifier, navController, state, height)
+                    }
                     }
             }
 

@@ -30,10 +30,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.romka_po.assistent.databinding.VkmapBinding
@@ -43,10 +45,10 @@ import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 
 
 @Composable
-fun DashboardScreen(state: BottomSheetScaffoldState) {
+fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
 //    val state = rememberBottomSheetScaffoldState(SheetState(true, LocalDensity.current))
 
-    TopWithBottomCard(state = state, content = {
+    TopWithBottomCard(state = state, height, content = {
         Box(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
