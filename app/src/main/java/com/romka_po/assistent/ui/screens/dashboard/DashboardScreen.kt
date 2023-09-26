@@ -46,8 +46,6 @@ import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 
 @Composable
 fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
-//    val state = rememberBottomSheetScaffoldState(SheetState(true, LocalDensity.current))
-
     TopWithBottomCard(state = state, height, content = {
         Box(
             modifier = Modifier
