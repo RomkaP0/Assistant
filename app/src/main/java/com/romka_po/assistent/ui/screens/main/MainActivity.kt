@@ -63,6 +63,15 @@ class MainActivity : ComponentActivity() {
     private val currentTheme = mutableStateOf(TypeTheme.AUTO)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.POST_NOTIFICATIONS,
+            ),
+            111
+        )
         requestLocationPermission()
 
         lifecycleScope.launch {

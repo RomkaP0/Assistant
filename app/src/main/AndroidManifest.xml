@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" /> <!-- Required for 29+. -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
 
     <application
         android:name=".App"
@@ -19,15 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assistent"
         tools:targetApi="31">
-        <service
-            android:name=".domain.broadcast.LocationService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <service android:name=".domain.location.LocationService" android:foregroundServiceType="location"/>
 
-        <receiver
-            android:name=".domain.broadcast.ActivityReceiver"
-            android:enabled="true"
-            android:exported="true" />
+
+<!--        <receiver-->
+<!--            android:name=".domain.broadcast.ActivityReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true" />-->
 
         <activity
             android:name=".ui.screens.main.MainActivity"

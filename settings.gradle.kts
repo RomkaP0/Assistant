@@ -3,6 +3,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://developer.huawei.com/repo/") }
+
     }
 
 }
@@ -12,7 +14,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = uri("https://artifactory-external.vkpartner.ru/artifactory/maps-sdk-android/"))
+        maven { url = uri("https://developer.huawei.com/repo/") }
     }
+
 }
 
 rootProject.name = "Assistent"

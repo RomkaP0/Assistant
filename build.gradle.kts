@@ -1,5 +1,11 @@
 buildscript {
     val agp_version by extra("8.2.0-beta05")
+    dependencies {
+        // Add the Android Gradle plugin configuration. You need to replace {version} with the actual Gradle plugin version, for example, 7.1.1.
+        classpath("com.android.tools.build:gradle:8.2.0-beta05")
+        // Add the AppGallery Connect plugin configuration. Please refer to AppGallery Connect Plugin Dependency to select a proper plugin version.
+        classpath("com.huawei.agconnect:agcp:1.9.1.300")
+    }
 }
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

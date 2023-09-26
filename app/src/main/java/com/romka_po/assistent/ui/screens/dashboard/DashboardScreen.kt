@@ -5,7 +5,9 @@
 
 package com.romka_po.assistent.ui.screens.dashboard
 
+import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,10 +30,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.romka_po.assistent.databinding.VkmapBinding
+import com.romka_po.assistent.domain.location.LocationService
 import com.romka_po.assistent.ui.components.shared.HorizontalBottomCard
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
@@ -70,7 +74,13 @@ fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                     Text(text = "Good")
                 }
             }
-            HorizontalBottomCard(color = Color.Yellow) {
+            val context = LocalContext.current
+            HorizontalBottomCard(modifier = Modifier.clickable {
+                Intent(context, LocationService::class.java).apply {
+                    action = LocationService.ACTION_START
+                    context.startService(this)
+                }
+            }, color = Color.Yellow) {
                 Icon(
                     imageVector = Icons.Default.WorkspacePremium,
                     contentDescription = null

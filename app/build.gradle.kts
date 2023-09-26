@@ -4,11 +4,47 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.huawei.agconnect")
 }
 
 android {
     namespace = "com.romka_po.assistent"
     compileSdk = 34
+
+//    sourceSets{
+//        google.java.srcDirs += "src/google/kotlin"
+//        google.res.srcDirs += "src/google/res"
+//        huawei.java.srcDirs += "src/huawei/kotlin"
+//        huawei.res.srcDirs += "src/huawei/res"
+//    }
+    flavorDimensions+= "services"
+    productFlavors {
+        create("hms") {
+            dimension  = "services"
+        }
+        create("gms") {
+            dimension = "services"
+        }
+    }
+
+    sourceSets {
+        getByName("hms") {
+            java {
+                srcDirs("src\\hms\\java", "src\\hms\\java")
+            }
+            res {
+                srcDirs("src\\hms\\res", "src\\hms\\res")
+            }
+        }
+        getByName("gms") {
+            java {
+                srcDirs("src\\gms\\java", "src\\gms\\java")
+            }
+            res {
+                srcDirs("src\\gms\\res", "src\\gms\\res")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.romka_po.assistent"
@@ -51,6 +87,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -106,7 +143,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     /*Map*/
-    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    "gmsImplementation" ("com.google.android.gms:play-services-location:21.0.1")
     implementation("ru.mail.maps:mapkit:1.0.308")
 
 
@@ -116,6 +153,11 @@ dependencies {
     /*Database*/
     implementation("androidx.room:room-runtime:$room")
     ksp("androidx.room:room-compiler:$room")
+
+    /*HMS*/
+    "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")
+    "hmsImplementation" ("com.huawei.hms:location:6.12.0.300")
+
 
     /*Test*/
     testImplementation("junit:junit:4.13.2")
