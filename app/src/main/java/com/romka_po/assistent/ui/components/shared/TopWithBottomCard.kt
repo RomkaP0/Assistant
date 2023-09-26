@@ -2,7 +2,8 @@
 
 package com.romka_po.assistent.ui.components.shared
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -22,7 +23,7 @@ fun TopWithBottomCard(
     sheetContent: @Composable () -> Unit,
 ) {
         BottomSheetScaffold(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.4f),
             scaffoldState = state,
             sheetPeekHeight = height.value,
 //            sheetTonalElevation = 10.dp,

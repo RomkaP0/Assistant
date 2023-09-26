@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" /> <!-- Required for 29+. -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:name=".App"
@@ -18,6 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assistent"
         tools:targetApi="31">
+        <service
+            android:name=".domain.broadcast.LocationService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <receiver
+            android:name=".domain.broadcast.ActivityReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.screens.main.MainActivity"
             android:exported="true"

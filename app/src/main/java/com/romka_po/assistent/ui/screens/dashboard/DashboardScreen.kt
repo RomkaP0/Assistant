@@ -6,23 +6,16 @@
 package com.romka_po.assistent.ui.screens.dashboard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,32 +40,16 @@ import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 @Composable
 fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
     TopWithBottomCard(state = state, height, content = {
-        Box(
+        AndroidViewBinding(
             modifier = Modifier
-                .fillMaxHeight(0.4f)
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
+                ,
+            factory = VkmapBinding::inflate
+
+
         ) {
-            AndroidViewBinding(factory = VkmapBinding::inflate){
 
-            }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(36.dp)
-                    .offset(x = (-4).dp, y = (-28).dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
-                    .clickable {
-
-                    }
-            ) {
-                Icon(
-                    modifier = Modifier.align(Alignment.Center),
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = null
-                )
-            }
         }
     }) {
         Column(

@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -109,6 +110,25 @@ fun StatsScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                     Spacer(modifier = Modifier.height(32.dp))
                 }
             }
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .height(100.dp)
+                    .border(
+                        2.dp,
+                        Brush.linearGradient(
+                            0f to Color.Black,
+                            0.01f to Color.Transparent,
+                            0.99f to Color.Transparent,
+                            1f to Color.Black,
+                            start = Offset(0.0f, 0.0f),
+                            end = Offset(Float.POSITIVE_INFINITY, 0.0f),
+                        ),
+                        RectangleShape
+
+                    )
+            )
         }
     }
 }
