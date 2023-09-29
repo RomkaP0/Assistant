@@ -7,16 +7,11 @@ plugins {
     id("com.huawei.agconnect")
 }
 
+
 android {
     namespace = "com.romka_po.assistent"
     compileSdk = 34
 
-//    sourceSets{
-//        google.java.srcDirs += "src/google/kotlin"
-//        google.res.srcDirs += "src/google/res"
-//        huawei.java.srcDirs += "src/huawei/kotlin"
-//        huawei.res.srcDirs += "src/huawei/res"
-//    }
     flavorDimensions+= "services"
     productFlavors {
         create("hms") {
@@ -125,6 +120,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:${compose}")
     implementation("androidx.compose.material:material-icons-extended:${compose}")
 
+    /*Coil*/
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+
     /*Compose Test*/
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:${compose}")
     debugImplementation("androidx.compose.ui:ui-tooling:${compose}")
@@ -143,7 +142,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     /*Map*/
-    "gmsImplementation" ("com.google.android.gms:play-services-location:21.0.1")
     implementation("ru.mail.maps:mapkit:1.0.308")
 
 
@@ -153,6 +151,9 @@ dependencies {
     /*Database*/
     implementation("androidx.room:room-runtime:$room")
     ksp("androidx.room:room-compiler:$room")
+
+    /*GMS*/
+    "gmsImplementation" ("com.google.android.gms:play-services-location:21.0.1")
 
     /*HMS*/
     "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")

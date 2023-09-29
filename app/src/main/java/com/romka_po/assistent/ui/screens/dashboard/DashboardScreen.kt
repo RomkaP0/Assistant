@@ -43,17 +43,18 @@ import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 
 @Composable
 fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
-    TopWithBottomCard(state = state, height, content = {
+    TopWithBottomCard(Modifier, state = state, height, content = {
         AndroidViewBinding(
             modifier = Modifier
                 .padding(16.dp)
-                .clip(RoundedCornerShape(16.dp))
-                ,
+                .clip(RoundedCornerShape(16.dp)),
             factory = VkmapBinding::inflate
 
 
         ) {
-
+            this.mapView.getMapAsync {
+                it.setLocationSource()
+            }
         }
     }) {
         Column(

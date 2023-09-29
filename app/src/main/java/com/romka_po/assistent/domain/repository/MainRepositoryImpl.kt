@@ -8,6 +8,7 @@ import javax.inject.Inject
 class MainRepositoryImpl @Inject constructor(
     private val datastoreManager: DatastoreManager,
     private val carNetworkSource: CarNetworkSource
+    private val Loca
 ) : MainRepository {
     override fun getTheme() = datastoreManager.themeSettingsFlow
 

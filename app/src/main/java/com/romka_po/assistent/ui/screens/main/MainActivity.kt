@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background),
                 ) {
                     val scope = this
-                    height.value = (scope.maxHeight.value * 0.6).dp
+                    height.value = scope.maxHeight.value.dp
                     AppNavHost(modifier = Modifier.fillMaxSize(), navController, state, height)
 
                     NavigationBar(

@@ -38,6 +38,7 @@ class LocationService: Service() {
     }
 
     private fun start(){
+        val locationFlow:
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking Location")
             .setContentText("Location: null")
@@ -51,7 +52,7 @@ class LocationService: Service() {
                 val lat = it.latitude.toString()
                 val long = it.longitude.toString()
                 val updateNotification = notification.setContentText("Location: ($lat, $long)")
-                notificationManager?.notify(1, updateNotification.build())
+                notificationManager.notify(1, updateNotification.build())
             }
             .launchIn(serviceScope)
 
