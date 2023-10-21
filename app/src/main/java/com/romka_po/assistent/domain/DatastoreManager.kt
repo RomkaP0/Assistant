@@ -3,6 +3,7 @@ package com.romka_po.assistent.domain
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -25,6 +26,10 @@ class DatastoreManager(
         datastore.edit { preferences ->
             preferences[stringPreferencesKey("theme")] = typeTheme.name
         }
+    }
+
+    val isFirstOpen = datastore.data.map {
+        it[booleanPreferencesKey("is_first_open")]?:true
     }
 
 

@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.databinding.VkmapBinding
 import com.romka_po.assistent.domain.location.LocationService
 import com.romka_po.assistent.ui.components.shared.HorizontalBottomCard
@@ -43,27 +44,27 @@ import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 
 @Composable
 fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
+    val viewModel:DashboardViewModel = hiltViewModel()
     TopWithBottomCard(Modifier, state = state, height, content = {
         AndroidViewBinding(
             modifier = Modifier
-                .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp)),
             factory = VkmapBinding::inflate
 
 
         ) {
             this.mapView.getMapAsync {
-                it.setLocationSource()
+                it.setLocationSource(viewModel.locationSource)
             }
         }
     }) {
         Column(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
+            modifier = Modifier.padding().verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top)
 
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 VerticalBottomCard(modifier = Modifier.weight(1f), color = Color.Unspecified) {

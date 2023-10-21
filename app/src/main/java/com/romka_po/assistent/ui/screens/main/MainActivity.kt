@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
@@ -51,11 +49,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-//    private lateinit var userLocationLayer: UserLocationLayer
-//    private lateinit var mapState: MapView
-
-
     private val screens =
         listOf(Screens.DashBoard, Screens.Catalog, Screens.Chart, Screens.Settings)
     private val viewModel: MainViewModel by viewModels()
@@ -88,6 +81,9 @@ class MainActivity : ComponentActivity() {
             val height = remember { mutableStateOf(BottomSheetDefaults.SheetPeekHeight) }
             val navController = rememberNavController()
             val state = rememberBottomSheetScaffoldState()
+            val showNavBarState = remember {
+                mutableStateOf(true)
+            }
 //            mapState = rememberMapViewWithLifecycle()
 //            if (!(::userLocationLayer.isInitialized && userLocationLayer.isValid)) {
 //                val mapKit = MapKitFactory.getInstance()
@@ -100,6 +96,10 @@ class MainActivity : ComponentActivity() {
 //
 //                }
 //            }
+            val startRoute = when {
+                viewModel.isFirstOpen.value -> Screens.Story
+                else -> Screens.DashBoard
+            }
 
             AssistentTheme(
                 darkTheme = when (currentTheme.value) {
@@ -116,44 +116,51 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val scope = this
                     height.value = scope.maxHeight.value.dp
-                    AppNavHost(modifier = Modifier.fillMaxSize(), navController, state, height)
-
-                    NavigationBar(
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(20.dp)
-                            .clip(
-                                RoundedCornerShape(16.dp)
-                            )
-                    ) {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = navBackStackEntry?.destination
-                        screens.forEach { screen ->
-                            NavigationBarItem(
-                                selected = currentDestination?.route == screen.route,
-                                icon = {
-                                    Icon(
-                                        modifier = Modifier.size(24.dp),
-                                        imageVector = ImageVector.vectorResource(id = screen.drawableId),
-                                        contentDescription = null
-                                    )
-                                },
-                                label = { Text(stringResource(id = screen.stringId)) },
-                                onClick = {
-                                    navController.navigate(screen.route) {
-                                        // Pop up to the start destination of the graph to
-                                        // avoid building up a large stack of destinations
-                                        // on the back stack as users select items
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
+                    AppNavHost(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = navController,
+                        state = state,
+                        height = height,
+                        startRoute = startRoute,
+                        showNavBarState = showNavBarState
+                    )
+                    if (showNavBarState.value) {
+                        NavigationBar(
+                            Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(20.dp)
+                                .clip(
+                                    RoundedCornerShape(16.dp)
+                                )
+                        ) {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
+                            screens.forEach { screen ->
+                                NavigationBarItem(
+                                    selected = currentDestination?.route == screen.route,
+                                    icon = {
+                                        Icon(
+                                            modifier = Modifier.size(24.dp),
+                                            imageVector = ImageVector.vectorResource(id = screen.drawableId!!),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    onClick = {
+                                        navController.navigate(screen.route) {
+                                            // Pop up to the start destination of the graph to
+                                            // avoid building up a large stack of destinations
+                                            // on the back stack as users select items
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            // Avoid multiple copies of the same destination when
+                                            // reselecting the same item
+                                            launchSingleTop = true
+                                            // Restore state when reselecting a previously selected item
+                                            restoreState = true
                                         }
-                                        // Avoid multiple copies of the same destination when
-                                        // reselecting the same item
-                                        launchSingleTop = true
-                                        // Restore state when reselecting a previously selected item
-                                        restoreState = true
-                                    }
-                                })
+                                    })
+                            }
                         }
                     }
                 }

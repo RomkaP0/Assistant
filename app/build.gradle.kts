@@ -49,6 +49,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = "b23df7b682dc438d8d5ca5dd9bd2ec96"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -86,14 +88,14 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.0-alpha06"
-    val composeBom = "2023.09.00"
+    val compose = "1.6.0-alpha07"
+    val composeBom = "2023.10.00"
 
-    val material3 = "1.2.0-alpha08"
+    val material3 = "1.2.0-alpha09"
 
-    val navigation = "2.7.2"
+    val navigation = "2.7.4"
 
-    val hilt = "2.48"
+    val hilt = "2.48.1"
 
     val retrofit = "2.9.0"
 
@@ -108,7 +110,7 @@ dependencies {
 
     /*Compose*/
     implementation(platform("androidx.compose:compose-bom:${composeBom}"))
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.compose.material3:material3:$material3")
     implementation("androidx.compose.foundation:foundation:$compose")
     implementation("androidx.compose.ui:ui-viewbinding:$compose")
@@ -159,6 +161,15 @@ dependencies {
     "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")
     "hmsImplementation" ("com.huawei.hms:location:6.12.0.300")
 
+    /*VK*/
+//    implementation ("com.vk:oauth-vk:0.110-24426")
+//    implementation ("com.vk:vksdk-pub:0.110-24426")
+
+    /*Yandex*/
+    implementation ("com.yandex.android:authsdk:3.0.0")
+
+    /*chart*/
+    implementation("com.carlosgub.kotlinm.charts:charts:1.0.4")
 
     /*Test*/
     testImplementation("junit:junit:4.13.2")

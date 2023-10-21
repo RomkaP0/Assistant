@@ -32,15 +32,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.romka_po.assistent.model.nav.Screens
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 
 @Composable
-fun CatalogScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
+fun CatalogScreen(
+    state: BottomSheetScaffoldState,
+    height: MutableState<Dp>,
+    navController: NavHostController
+) {
     val viewModel: CatalogViewModel = hiltViewModel()
 
     val listCars = viewModel.listCars.collectAsState()
 
-    TopWithBottomCard(state,height, content = {
+    TopWithBottomCard(Modifier, state,height, content = {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +86,7 @@ fun CatalogScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                         Column(modifier = Modifier.padding(start = 16.dp)) {
                             make.models.forEach { model ->
                                 Text(model.name, modifier = Modifier.clickable {
-                                    state.value = true
+                                    navController.navigate(Screens.Detail.route)
                                 })
                             }
                         }

@@ -15,35 +15,54 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.romka_po.assistent.model.nav.Screens
+import com.romka_po.assistent.ui.screens.auth.AuthScreen
 import com.romka_po.assistent.ui.screens.catalog.CatalogScreen
 import com.romka_po.assistent.ui.screens.dashboard.DashboardScreen
+import com.romka_po.assistent.ui.screens.detail.DetailScreen
 import com.romka_po.assistent.ui.screens.settings.SettingsScreen
 import com.romka_po.assistent.ui.screens.stats.StatsScreen
+import com.romka_po.assistent.ui.screens.story.StoryScreen
 
 @Composable
 fun AppNavHost(
     modifier: Modifier,
     navController: NavHostController,
     state: BottomSheetScaffoldState,
-    height: MutableState<Dp>
+    height: MutableState<Dp>,
+    startRoute: Screens,
+    showNavBarState: MutableState<Boolean>,
 ) {
     val flag = remember{mutableStateOf(false)}
-    NavHost(modifier = modifier.fillMaxSize(), navController = navController, startDestination = Screens.DashBoard.route){
+    NavHost(modifier = modifier.fillMaxSize(), navController = navController, startDestination = startRoute.route){
         composable(Screens.DashBoard.route){
+            showNavBarState.value = true
             DashboardScreen(state, height)
             flag.value=true
         }
         composable(Screens.Settings.route){
-            SettingsScreen()
+            SettingsScreen(state, height)
             flag.value=true
         }
         composable(Screens.Catalog.route){
-            CatalogScreen(state, height)
+            CatalogScreen(state, height, navController)
             flag.value=true
         }
         composable(Screens.Chart.route){
-            StatsScreen(state, height)
+            StatsScreen()
             flag.value=true
         }
+        composable(Screens.Story.route){
+            showNavBarState.value = false
+            StoryScreen(navController)
+        }
+        composable(Screens.Auth.route){
+            showNavBarState.value = false
+            AuthScreen(navController)
+        }
+        composable(Screens.Detail.route){
+            showNavBarState.value = false
+            DetailScreen(state = state, height = height)
+        }
+
     }
 }
