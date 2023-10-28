@@ -2,11 +2,13 @@ package com.romka_po.assistent.domain.repository
 
 import android.app.NotificationManager
 import androidx.core.app.NotificationCompat
-import com.romka_po.assistent.domain.DatastoreManager
-import com.romka_po.assistent.domain.api.CarNetworkSource
+import com.romka_po.assistent.domain.local.DatastoreManager
 import com.romka_po.assistent.domain.location.LocationClient
+import com.romka_po.assistent.model.local.LocalMake
+import com.romka_po.assistent.model.local.LocalModel
 import com.romka_po.assistent.model.theme.TypeTheme
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +22,9 @@ import javax.inject.Singleton
 @Singleton
 class MainRepositoryImpl @Inject constructor(
     private val datastoreManager: DatastoreManager,
-    private val carNetworkSource: CarNetworkSource
+    private val localDataLayer: LocalDataLayer,
+    private val networkDataLayer: NetworkDataLayer
+//    private val carNetworkSource: CarNetworkSource
 ) : MainRepository {
 
     private val _locationFlow: MutableStateFlow<MapLocation> = MutableStateFlow(MapLocation())
@@ -29,6 +33,14 @@ class MainRepositoryImpl @Inject constructor(
 
     override suspend fun changeTheme(typeTheme: TypeTheme) =
         datastoreManager.changeTheme(typeTheme = typeTheme)
+
+    override suspend fun getMarks(): Flow<List<LocalMake>> {
+        return localDataLayer.getMakes()
+    }
+
+    override suspend fun getModelsFromMark(makeId: String): Flow<List<LocalModel>> {
+        return localDataLayer.getModelsFromMake(makeId)
+    }
 
     override fun getUpdatedLocation(
         myLocationClient: LocationClient,
@@ -55,4 +67,7 @@ class MainRepositoryImpl @Inject constructor(
             }
             .launchIn(serviceScope)
     }
+
+
+
 }

@@ -88,10 +88,11 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.0-alpha07"
-    val composeBom = "2023.10.00"
+    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
+    val compose = "1.6.0-alpha08"
+    val composeBom = "2023.10.01"
 
-    val material3 = "1.2.0-alpha09"
+    val material3 = "1.2.0-alpha10"
 
     val navigation = "2.7.4"
 
@@ -99,7 +100,9 @@ dependencies {
 
     val retrofit = "2.9.0"
 
-    val room = "2.5.2"
+    val room = "2.6.0"
+
+    val hiltAndroid = "1.1.0-rc01"
 
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -133,9 +136,16 @@ dependencies {
 
 
     /*Hilt*/
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation ("com.google.dagger:hilt-android:$hilt")
-    ksp ("com.google.dagger:hilt-android-compiler:$hilt")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
+
+    implementation ("com.google.dagger:hilt-android:2.48.1")
+
+    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
+    implementation("androidx.work:work-runtime:2.9.0-rc01")
+    implementation("androidx.hilt:hilt-work:1.1.0-rc01")
+
+    ksp ("com.google.dagger:hilt-android-compiler:2.48.1")
+    ksp("androidx.hilt:hilt-compiler:1.1.0-rc01")
 
     /*Datastore*/
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -149,21 +159,24 @@ dependencies {
 
     /*Http-request*/
     implementation("com.squareup.retrofit2:retrofit:$retrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit")
 
     /*Database*/
+    implementation("androidx.room:room-ktx:$room")
     implementation("androidx.room:room-runtime:$room")
     ksp("androidx.room:room-compiler:$room")
 
     /*GMS*/
     "gmsImplementation" ("com.google.android.gms:play-services-location:21.0.1")
+    "gmsImplementation" ("com.google.android.gms:play-services-auth:20.7.0")
 
     /*HMS*/
     "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")
     "hmsImplementation" ("com.huawei.hms:location:6.12.0.300")
 
     /*VK*/
-//    implementation ("com.vk:oauth-vk:0.110-24426")
-//    implementation ("com.vk:vksdk-pub:0.110-24426")
+    implementation ("com.vk:android-sdk-core:4.1.0")
+    implementation ("com.vk:android-sdk-api:4.1.0")
 
     /*Yandex*/
     implementation ("com.yandex.android:authsdk:3.0.0")

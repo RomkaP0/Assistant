@@ -28,7 +28,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -52,14 +51,7 @@ fun StoryScreen(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(
-                        Brush.verticalGradient(
-//                        0f to MaterialTheme.colorScheme.background,
-                            0f to Color.White,
-
-                            0.95f to Color(red = 48, green = 19, blue = 49)
-                        )
-                    )
+                    .background(Color(red = 27, green = 2, blue = 32))
                     .padding(top = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center

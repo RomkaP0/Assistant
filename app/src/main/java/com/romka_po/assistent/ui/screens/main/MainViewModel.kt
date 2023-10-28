@@ -3,7 +3,7 @@ package com.romka_po.assistent.ui.screens.main
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romka_po.assistent.domain.DatastoreManager
+import com.romka_po.assistent.domain.local.DatastoreManager
 import com.romka_po.assistent.domain.repository.MainRepository
 import com.romka_po.assistent.model.theme.TypeTheme
 import dagger.hilt.android.lifecycle.HiltViewModel

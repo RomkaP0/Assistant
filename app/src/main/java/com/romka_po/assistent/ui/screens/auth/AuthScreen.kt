@@ -2,6 +2,8 @@
 
 package com.romka_po.assistent.ui.screens.auth
 
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,12 +28,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -41,6 +45,13 @@ import com.romka_po.assistent.ui.components.auth.AuthField
 import com.romka_po.assistent.ui.components.auth.CardRadioButton
 import com.romka_po.assistent.ui.components.auth.InputType
 import com.romka_po.assistent.ui.components.auth.PositionInColumn
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.yandex.authsdk.YandexAuthException
+import com.yandex.authsdk.YandexAuthLoginOptions
+import com.yandex.authsdk.YandexAuthOptions
+import com.yandex.authsdk.YandexAuthSdk
+import com.yandex.authsdk.YandexAuthToken
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,10 +59,22 @@ fun AuthScreen(navController: NavHostController) {
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
     val currentAuthSDK = remember { mutableIntStateOf(-1) }
-//    val sdk = YandexAuthSdk.create(YandexAuthOptions(LocalContext.current))
-//    val launcher = rememberLauncherForActivityResult(sdk.contract) { result -> handleResult(result) }
-//    val loginOptions = YandexAuthLoginOptions()
-//    launcher.launch(loginOptions)
+    val sdk = YandexAuthSdk.create(YandexAuthOptions(LocalContext.current))
+    val launcher =
+        rememberLauncherForActivityResult(sdk.contract) { result -> handleResult(result) }
+    val loginOptions = YandexAuthLoginOptions()
+    val authLauncher = rememberLauncherForActivityResult(
+        contract = VK.getVKAuthActivityResultContract()
+    ) { result ->
+        handleVKResult(result)
+    }
+    SideEffect {
+//        launcher.launch(loginOptions)
+//        authLauncher.launch(arrayListOf(VKScope.WALL, VKScope.PHOTOS))
+
+    }
+
+
 
 
     HorizontalPager(state = pagerState) { page ->
@@ -62,16 +85,22 @@ fun AuthScreen(navController: NavHostController) {
                 .padding(vertical = 48.dp, horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Hello!", style = MaterialTheme.typography.displaySmall, color = MaterialTheme.colorScheme.onSurface.copy(0.7f))
+            Text(
+                text = "Hello!",
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
+            )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
                 text = "Sign in",
-                style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
             )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
                 text = "Please fill your information",
-                style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
             )
             Column(
                 modifier = Modifier
@@ -113,7 +142,9 @@ fun AuthScreen(navController: NavHostController) {
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -125,7 +156,9 @@ fun AuthScreen(navController: NavHostController) {
                 }
 
                 FilledIconButton(
-                    modifier = Modifier.fillMaxHeight().aspectRatio(1f),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f),
                     onClick = {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(page + 1)
@@ -142,6 +175,7 @@ fun AuthScreen(navController: NavHostController) {
         }
     }
 }
+
 //private fun handleResult(result: Result<YandexAuthToken?>) {
 //    result.fold(
 //        onSuccess = { token ->
@@ -156,3 +190,27 @@ fun AuthScreen(navController: NavHostController) {
 //        },
 //    )
 //}
+//private fun handleVKResult(result: VKAuthenticationResult) {
+//    result.fo
+//}
+private fun handleResult(result: Any?) {
+    when (result) {
+        is Result<*> -> {
+            result.fold(
+                onSuccess = { token ->
+                    if (token != null) {
+                        Log.i("LOGI", "handleResult: $token")
+                    }
+                },
+                onFailure = { exception ->
+                    if (exception is YandexAuthException) {
+                        // Process error
+                    }
+                },
+            )
+        }
+        is VKAuthenticationResult -> {
+
+        }
+    }
+}
