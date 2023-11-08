@@ -1,7 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package com.romka_po.assistent.ui.screens.catalog
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +21,9 @@ import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -56,13 +58,16 @@ fun CatalogScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.4f)
+                .fillMaxHeight(0.4f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = "Поиск автомобиля по названию")
-            TextField(
+            Text(text = "Поиск", style = MaterialTheme.typography.displayLarge)
+            OutlinedTextField(
                 value = "",
                 onValueChange = {}
             )
+            Spacer(modifier = Modifier.height(0.dp))
         }
     }) {
 
@@ -75,19 +80,18 @@ fun CatalogScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                if (position == choosed.intValue){
+                                if (position == choosed.intValue) {
                                     choosed.intValue = -1
-                                }
-                                else{
+                                } else {
                                     choosed.intValue = position
                                 }
-                                    viewModel.getModelsFromMark(make.id)
+                                viewModel.getModelsFromMark(make.id)
                             }
                             .padding(16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "${make.name} (${make.modelsCount})")
+                        Text(text = "${make.name} (${make.modelsCount})", style = MaterialTheme.typography.titleLarge)
                         Icon(
                             imageVector = if (position != choosed.intValue) Icons.Default.ArrowDropDown else Icons.Default.ArrowDropUp,
                             contentDescription = null
@@ -95,11 +99,22 @@ fun CatalogScreen(
                     }
 
                     if (position == choosed.intValue) {
-                        Column(modifier = Modifier.padding(start = 16.dp)) {
-                            listModels.value.forEach { model ->
-                                Text(model.name, modifier = Modifier.clickable {
-                                    navController.navigate(Screens.Detail.route)
-                                })
+                        Column(modifier = Modifier) {
+                            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                            listModels.value.forEachIndexed { index, model ->
+                                Text(
+                                    model.name,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp)
+                                        .clickable {
+                                            navController.navigate(Screens.Detail.route)
+                                        }
+                                        .padding(vertical = 16.dp),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                if (index<listModels.value.size-1)
+                                HorizontalDivider(modifier = Modifier.padding(horizontal = 32.dp))
                             }
                         }
                     }

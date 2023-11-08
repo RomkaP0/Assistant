@@ -2,7 +2,6 @@
 
 package com.romka_po.assistent.ui.screens.settings
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,11 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.romka_po.assistent.R
 import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 
@@ -38,7 +35,7 @@ fun SettingsScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
     val currentTheme = viewModel.currentTheme.collectAsState()
     TopWithBottomCard(Modifier, state, height, content = {
         Row {
-            Image(painter = painterResource(id = R.drawable.backready), contentDescription = null)
+//            Image(painter = painterResource(id = R.drawable.backready), contentDescription = null)
         }
     }) {
         Column(

@@ -6,6 +6,7 @@ import com.romka_po.assistent.domain.local.DatastoreManager
 import com.romka_po.assistent.domain.location.LocationClient
 import com.romka_po.assistent.model.local.LocalMake
 import com.romka_po.assistent.model.local.LocalModel
+import com.romka_po.assistent.model.network.User
 import com.romka_po.assistent.model.theme.TypeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +43,8 @@ class MainRepositoryImpl @Inject constructor(
         return localDataLayer.getModelsFromMake(makeId)
     }
 
+
+
     override fun getUpdatedLocation(
         myLocationClient: LocationClient,
         notification: NotificationCompat.Builder,
@@ -68,6 +71,13 @@ class MainRepositoryImpl @Inject constructor(
             .launchIn(serviceScope)
     }
 
+    override suspend fun sendAuthToken(token: String){
+        networkDataLayer.sendAuthToken(token)
+    }
+
+    override suspend fun sendAuthPassword(user: User) {
+        networkDataLayer.sendAuthPassword(user)
+    }
 
 
 }

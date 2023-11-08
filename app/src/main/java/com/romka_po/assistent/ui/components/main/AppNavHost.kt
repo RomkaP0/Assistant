@@ -61,7 +61,7 @@ fun AppNavHost(
         }
         composable(Screens.Detail.route){
             showNavBarState.value = false
-            DetailScreen(state = state, height = height)
+            DetailScreen(navController, state = state, height = height)
         }
 
     }

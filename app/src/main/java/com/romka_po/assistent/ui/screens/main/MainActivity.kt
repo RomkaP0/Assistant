@@ -181,50 +181,6 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-//
-//    override fun onObjectAdded(userLocationView: UserLocationView) {
-//        userLocationLayer.setAnchor(
-//            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.5).toFloat()),
-//            PointF((mapState.width * 0.5).toFloat(), (mapState.height * 0.83).toFloat())
-//        )
-//
-//        userLocationView.arrow.setIcon(
-//            ImageProvider.fromResource(
-//                this, R.drawable.car
-//            )
-//
-//        )
-//
-//        val pinIcon: CompositeIcon = userLocationView.pin.useCompositeIcon()
-//
-//        pinIcon.setIcon(
-//            "icon",
-//            ImageProvider.fromResource(this, R.drawable.new_moon),
-//            IconStyle().setAnchor(PointF(0f, 0f))
-//                .setRotationType(RotationType.NO_ROTATION)
-//                .setZIndex(0f)
-//                .setScale(1f)
-//        )
-//
-//        pinIcon.setIcon(
-//            "pin",
-//            ImageProvider.fromResource(this, R.drawable.new_moon),
-//            IconStyle().setAnchor(PointF(0.5f, 0.5f))
-//                .setRotationType(RotationType.ROTATE)
-//                .setZIndex(1f)
-//                .setScale(0.5f)
-//        )
-//
-//        userLocationView.accuracyCircle.fillColor = Color.BLUE and -0x66000001
-//    }
-//
-//    override fun onObjectRemoved(p0: UserLocationView) {
-//        Log.i("onObjectRemoved", "onObjectRemoved")
-//    }
-//
-//    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
-//        Log.i("onObjectUpdated", "onObjectUpdated")
-//    }
 
 }
 

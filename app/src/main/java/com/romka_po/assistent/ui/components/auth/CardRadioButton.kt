@@ -1,6 +1,7 @@
 package com.romka_po.assistent.ui.components.auth
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,22 +34,47 @@ fun CardRadioButton(
     currentAuthSDK: MutableIntState,
     shapePosition: PositionInColumn = PositionInColumn.TOP
 ) {
-    val shape = when (shapePosition){
-        PositionInColumn.TOP -> RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp, bottomStart = 10.dp, bottomEnd = 10.dp)
-        PositionInColumn.MIDDLE -> RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 10.dp, bottomEnd = 10.dp)
-        PositionInColumn.BOTTOM -> RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 40.dp, bottomEnd = 40.dp)
+    val shape = when (shapePosition) {
+        PositionInColumn.TOP -> RoundedCornerShape(
+            topStart = 40.dp,
+            topEnd = 40.dp,
+            bottomStart = 10.dp,
+            bottomEnd = 10.dp
+        )
+
+        PositionInColumn.MIDDLE -> RoundedCornerShape(
+            topStart = 10.dp,
+            topEnd = 10.dp,
+            bottomStart = 10.dp,
+            bottomEnd = 10.dp
+        )
+
+        PositionInColumn.BOTTOM -> RoundedCornerShape(
+            topStart = 10.dp,
+            topEnd = 10.dp,
+            bottomStart = 40.dp,
+            bottomEnd = 40.dp
+        )
     }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
             .background(MaterialTheme.colorScheme.onSecondary)
+            .clickable {
+                currentAuthSDK.intValue = position
+            }
             .padding(24.dp)
             .height(56.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(modifier = Modifier.background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))) {
+        Box(
+            modifier = Modifier.background(
+                MaterialTheme.colorScheme.background,
+                RoundedCornerShape(16.dp)
+            )
+        ) {
             Icon(
                 modifier = Modifier
                     .padding(16.dp)
@@ -63,14 +89,22 @@ fun CardRadioButton(
         ) {
 //            Text(text = "FEFE")
 //            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = brand, color = MaterialTheme.colorScheme.onSurface.copy(0.8f)
+            Text(
+                text = brand, color = MaterialTheme.colorScheme.onSurface.copy(0.8f)
             )
         }
-        Box(modifier = Modifier.background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))) {
-            RadioButton(modifier = Modifier
-                .padding(16.dp)
-                .size(24.dp),
-                selected = position == currentAuthSDK.intValue, onClick = { currentAuthSDK.intValue = position })
+        Box(
+            modifier = Modifier.background(
+                MaterialTheme.colorScheme.background.copy(alpha = 0.6f),
+                RoundedCornerShape(16.dp)
+            )
+        ) {
+            RadioButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(24.dp),
+                    selected = position == currentAuthSDK.intValue, onClick = null
+                )
         }
     }
 }

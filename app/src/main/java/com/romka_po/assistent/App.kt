@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Constraints
@@ -11,6 +12,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.romka_po.assistent.domain.location.LocationService
 import com.romka_po.assistent.domain.worker.SyncStaticDataWorker
 import dagger.hilt.android.HiltAndroidApp
 import ru.mail.maps.sdk.MapGlobalConfig
@@ -60,6 +62,11 @@ class App: Application(), Configuration.Provider {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+
+        Intent(this, LocationService::class.java).apply {
+            action = LocationService.ACTION_START
+            this@App.startService(this)
+        }
     }
 
 

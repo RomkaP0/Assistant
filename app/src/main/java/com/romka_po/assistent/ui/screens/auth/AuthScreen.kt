@@ -2,7 +2,6 @@
 
 package com.romka_po.assistent.ui.screens.auth
 
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.romka_po.assistent.R
 import com.romka_po.assistent.model.nav.Screens
@@ -47,6 +46,7 @@ import com.romka_po.assistent.ui.components.auth.InputType
 import com.romka_po.assistent.ui.components.auth.PositionInColumn
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.vk.api.sdk.auth.VKScope
 import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
@@ -56,23 +56,26 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AuthScreen(navController: NavHostController) {
+    val viewModel: AuthViewModel = hiltViewModel()
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
     val currentAuthSDK = remember { mutableIntStateOf(-1) }
     val sdk = YandexAuthSdk.create(YandexAuthOptions(LocalContext.current))
     val launcher =
-        rememberLauncherForActivityResult(sdk.contract) { result -> handleResult(result) }
+        rememberLauncherForActivityResult(sdk.contract) { result ->
+            handleResult(
+                result,
+                viewModel,
+                navController
+            )
+        }
     val loginOptions = YandexAuthLoginOptions()
     val authLauncher = rememberLauncherForActivityResult(
         contract = VK.getVKAuthActivityResultContract()
     ) { result ->
-        handleVKResult(result)
+        handleResult(result, viewModel, navController)
     }
-    SideEffect {
-//        launcher.launch(loginOptions)
-//        authLauncher.launch(arrayListOf(VKScope.WALL, VKScope.PHOTOS))
 
-    }
 
 
 
@@ -112,8 +115,16 @@ fun AuthScreen(navController: NavHostController) {
             ) {
                 if (page == 0) {
                     currentAuthSDK.intValue = -1
-                    AuthField(position = PositionInColumn.TOP, InputType.EMAIL)
-                    AuthField(position = PositionInColumn.BOTTOM, InputType.PASSWORD)
+                    AuthField(
+                        viewModel.emailState,
+                        position = PositionInColumn.TOP,
+                        InputType.EMAIL
+                    )
+                    AuthField(
+                        viewModel.passwordState,
+                        position = PositionInColumn.BOTTOM,
+                        InputType.PASSWORD
+                    )
                 } else {
                     CardRadioButton(
                         ImageVector.vectorResource(id = R.drawable.icons8_google),
@@ -149,7 +160,20 @@ fun AuthScreen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(
-                    onClick = { navController.navigate(Screens.DashBoard.route) },
+                    onClick = {
+//                        navController.navigate(Screens.DashBoard.route)
+                        if (page ==0){
+                            viewModel.sendAuthPassword(email = viewModel.emailState.value, password = viewModel.passwordState.value)
+                            navController.navigate(Screens.DashBoard.route)
+                        }
+                        else {
+                            when (currentAuthSDK.intValue){
+                                0 -> launcher.launch(loginOptions)
+                                1-> authLauncher.launch(arrayListOf(VKScope.EMAIL))
+
+                            }
+                        }
+                    },
                     contentPadding = PaddingValues(horizontal = 56.dp, vertical = 16.dp)
                 ) {
                     Text(text = "Sign in now", style = MaterialTheme.typography.titleMedium)
@@ -174,32 +198,17 @@ fun AuthScreen(navController: NavHostController) {
             }
         }
     }
+//    BottomAuthDialog()
 }
-
-//private fun handleResult(result: Result<YandexAuthToken?>) {
-//    result.fold(
-//        onSuccess = { token ->
-//            if (token != null) {
-//                // Success auth
-//            }
-//        },
-//        onFailure = { exception ->
-//            if (exception is YandexAuthException) {
-//                // Process error
-//            }
-//        },
-//    )
-//}
-//private fun handleVKResult(result: VKAuthenticationResult) {
-//    result.fo
-//}
-private fun handleResult(result: Any?) {
+private fun handleResult(result: Any?, viewModel: AuthViewModel, navController: NavHostController) {
     when (result) {
         is Result<*> -> {
             result.fold(
                 onSuccess = { token ->
                     if (token != null) {
-                        Log.i("LOGI", "handleResult: $token")
+                        val tokenValue = token as YandexAuthToken
+                        viewModel.sendAuthToken(tokenValue.value)
+                        navController.navigate(Screens.DashBoard.route)
                     }
                 },
                 onFailure = { exception ->
@@ -209,8 +218,16 @@ private fun handleResult(result: Any?) {
                 },
             )
         }
-        is VKAuthenticationResult -> {
 
+        is VKAuthenticationResult -> {
+            when (result) {
+                is VKAuthenticationResult.Success -> {
+                    
+                }
+                is VKAuthenticationResult.Failed -> {
+                    // User didn't pass authorization
+                }
+            }
         }
     }
 }

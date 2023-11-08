@@ -7,10 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" /> <!-- Required for 29+. -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="com.huawei.hms.permission.ACTIVITY_RECOGNITION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="com.huawei.hms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
 
     <application
         android:name=".App"
@@ -24,8 +25,10 @@
         android:theme="@style/Theme.Assistent"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <service android:name=".domain.location.LocationService" android:foregroundServiceType="location"/>
-        
+        <service
+            android:name=".domain.location.LocationService"
+            android:foregroundServiceType="location" />
+
 
         <activity
             android:name=".ui.screens.main.MainActivity"
@@ -46,6 +49,21 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+        <receiver
+
+            android:name=".domain.identificate.ActivityTransitionReceiver"
+
+            android:exported="false"
+
+            android:permission="com.google.android.gms.permission.ACTIVITY_RECOGNITION">
+
+            <intent-filter>
+
+                <action android:name="action.TRANSITIONS_DATA" />
+
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>

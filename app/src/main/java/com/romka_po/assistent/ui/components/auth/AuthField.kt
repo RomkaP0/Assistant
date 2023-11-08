@@ -15,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,14 +27,35 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun AuthField(position: PositionInColumn = PositionInColumn.TOP, type: InputType = InputType.LOGIN) {
-    val shape = when (position){
-        PositionInColumn.TOP -> RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp, bottomStart = 10.dp, bottomEnd = 10.dp)
-        PositionInColumn.MIDDLE -> RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 10.dp, bottomEnd = 10.dp)
-        PositionInColumn.BOTTOM -> RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 40.dp, bottomEnd = 40.dp)
+fun AuthField(
+    textValue: MutableState<String> = mutableStateOf(""),
+    position: PositionInColumn = PositionInColumn.TOP,
+    type: InputType = InputType.LOGIN
+) {
+    val shape = when (position) {
+        PositionInColumn.TOP -> RoundedCornerShape(
+            topStart = 40.dp,
+            topEnd = 40.dp,
+            bottomStart = 10.dp,
+            bottomEnd = 10.dp
+        )
+
+        PositionInColumn.MIDDLE -> RoundedCornerShape(
+            topStart = 10.dp,
+            topEnd = 10.dp,
+            bottomStart = 10.dp,
+            bottomEnd = 10.dp
+        )
+
+        PositionInColumn.BOTTOM -> RoundedCornerShape(
+            topStart = 10.dp,
+            topEnd = 10.dp,
+            bottomStart = 40.dp,
+            bottomEnd = 40.dp
+        )
     }
 
-    val icon = when(type){
+    val icon = when (type) {
         InputType.EMAIL -> Icons.Default.MailOutline
         InputType.LOGIN -> Icons.Outlined.SupervisorAccount
         InputType.PASSWORD -> Icons.Outlined.Lock
@@ -43,11 +66,11 @@ fun AuthField(position: PositionInColumn = PositionInColumn.TOP, type: InputType
             .background(MaterialTheme.colorScheme.onSecondary, shape = shape)
             .padding(24.dp),
         shape = RoundedCornerShape(8.dp),
-        value = "faw",
+        value = textValue.value,
         visualTransformation = if (type == InputType.PASSWORD) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = if (type == InputType.PASSWORD) KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
         textStyle = MaterialTheme.typography.titleMedium,
-        onValueChange = {},
+        onValueChange = { textValue.value = it },
         colors = TextFieldDefaults.colors(
             unfocusedTextColor = Color.Unspecified,
             focusedIndicatorColor = Color.Transparent,
@@ -56,7 +79,7 @@ fun AuthField(position: PositionInColumn = PositionInColumn.TOP, type: InputType
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent
         ),
-        label = {Text("Email", style = MaterialTheme.typography.bodyMedium)},
+        label = { Text("Email", style = MaterialTheme.typography.bodyMedium) },
         trailingIcon = {
             Icon(imageVector = icon, contentDescription = null)
         }

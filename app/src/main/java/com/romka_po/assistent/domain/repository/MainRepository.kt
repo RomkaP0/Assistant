@@ -5,8 +5,7 @@ import androidx.core.app.NotificationCompat
 import com.romka_po.assistent.domain.location.LocationClient
 import com.romka_po.assistent.model.local.LocalMake
 import com.romka_po.assistent.model.local.LocalModel
-import com.romka_po.assistent.model.network.NetworkMake
-import com.romka_po.assistent.model.network.NetworkModel
+import com.romka_po.assistent.model.network.User
 import com.romka_po.assistent.model.theme.TypeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -29,4 +28,7 @@ interface MainRepository {
     suspend fun getMarks(): Flow<List<LocalMake>>
     suspend fun getModelsFromMark(makeId:String): Flow<List<LocalModel>>
 
+    suspend fun sendAuthPassword(user: User)
+
+    suspend fun sendAuthToken(token:String)
 }

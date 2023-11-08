@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,8 +20,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +43,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.romka_po.assistent.ui.components.detail.TextWithPoint
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 
@@ -53,7 +60,11 @@ val blocks = listOf(
 )
 
 @Composable
-fun DetailScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
+fun DetailScreen(
+    navController: NavHostController,
+    state: BottomSheetScaffoldState,
+    height: MutableState<Dp>
+) {
     val viewModel: DetailViewModel = hiltViewModel()
 
     val animTime = 400
@@ -62,6 +73,12 @@ fun DetailScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
 
     TopWithBottomCard(Modifier, state, height, content = {
 //        AsyncImage(model = , contentDescription = )
+        Box {
+            FloatingActionButton(modifier = Modifier, onClick = { navController.popBackStack() }) {
+                Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = null)
+            }
+        }
+
     }) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -103,9 +120,9 @@ fun DetailScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                         exit = shrinkVertically(tween(animTime), shrinkTowards = Alignment.Top)
                     )
                     {
-                        Column {
+                        Column(modifier = Modifier.padding(start = 40.dp)) {
                             blocks.forEach {
-                                TextWithPoint(modifier = Modifier.padding(start = 40.dp), text = it)
+                                TextWithPoint( text = it)
                             }
                         }
                     }
@@ -128,7 +145,6 @@ fun DetailScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                             end = Offset(Float.POSITIVE_INFINITY, 0.0f),
                         ),
                         RectangleShape
-
                     )
             )
         }
