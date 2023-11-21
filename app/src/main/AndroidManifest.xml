@@ -49,20 +49,22 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
         <receiver
-
-            android:name=".domain.identificate.ActivityTransitionReceiver"
-
-            android:exported="false"
-
-            android:permission="com.google.android.gms.permission.ACTIVITY_RECOGNITION">
-
+            android:name=".domain.identificate.LocationBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
-
-                <action android:name="action.TRANSITIONS_DATA" />
-
+                <action android:name="com.huawei.hmssample.location.LocationBroadcastReceiver.ACTION_PROCESS_LOCATION" />
             </intent-filter>
-
+        </receiver>
+        <receiver android:name=".domain.MyAppWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/my_app_widget_info" />
         </receiver>
     </application>
 

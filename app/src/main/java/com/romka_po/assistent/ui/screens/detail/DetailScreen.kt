@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -74,7 +73,7 @@ fun DetailScreen(
     TopWithBottomCard(Modifier, state, height, content = {
 //        AsyncImage(model = , contentDescription = )
         Box {
-            FloatingActionButton(modifier = Modifier, onClick = { navController.popBackStack() }) {
+            FloatingActionButton(modifier = Modifier, onClick = { navController.navigateUp() }) {
                 Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = null)
             }
         }

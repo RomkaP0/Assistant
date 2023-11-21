@@ -60,6 +60,12 @@ fun AuthField(
         InputType.LOGIN -> Icons.Outlined.SupervisorAccount
         InputType.PASSWORD -> Icons.Outlined.Lock
     }
+
+    val text = when (type) {
+        InputType.EMAIL -> "Email"
+        InputType.LOGIN -> "Login"
+        InputType.PASSWORD -> "Password"
+    }
     TextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +85,7 @@ fun AuthField(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent
         ),
-        label = { Text("Email", style = MaterialTheme.typography.bodyMedium) },
+        label = { Text(text, style = MaterialTheme.typography.bodyMedium) },
         trailingIcon = {
             Icon(imageVector = icon, contentDescription = null)
         }

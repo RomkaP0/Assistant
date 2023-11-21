@@ -88,13 +88,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
-    val compose = "1.6.0-alpha08"
+    val compose = "1.6.0-beta01"
     val composeBom = "2023.10.01"
+    val activityCompose = "1.8.1"
 
-    val material3 = "1.2.0-alpha10"
+    val material3 = "1.2.0-alpha11"
 
-    val navigation = "2.7.4"
+    val navigation = "2.7.5"
 
     val hilt = "2.48.1"
 
@@ -102,18 +102,18 @@ dependencies {
 
     val room = "2.6.0"
 
-    val hiltAndroid = "1.1.0-rc01"
+    val hiltAndroid = "1.1.0"
 
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
 
 
     /*Compose*/
     implementation(platform("androidx.compose:compose-bom:${composeBom}"))
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:$activityCompose")
     implementation("androidx.compose.material3:material3:$material3")
     implementation("androidx.compose.foundation:foundation:$compose")
     implementation("androidx.compose.ui:ui-viewbinding:$compose")
@@ -126,7 +126,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:${compose}")
 
     /*Coil*/
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 
     /*Compose Test*/
@@ -136,16 +136,17 @@ dependencies {
 
 
     /*Hilt*/
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
+    implementation("androidx.hilt:hilt-navigation-compose:$hiltAndroid")
 
-    implementation ("com.google.dagger:hilt-android:2.48.1")
+    implementation ("com.google.dagger:hilt-android:$hilt")
+    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
 
     implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
     implementation("androidx.work:work-runtime:2.9.0-rc01")
-    implementation("androidx.hilt:hilt-work:1.1.0-rc01")
+    implementation("androidx.hilt:hilt-work:$hiltAndroid")
 
-    ksp ("com.google.dagger:hilt-android-compiler:2.48.1")
-    ksp("androidx.hilt:hilt-compiler:1.1.0-rc01")
+    ksp ("com.google.dagger:hilt-android-compiler:$hilt")
+    ksp("androidx.hilt:hilt-compiler:$hiltAndroid")
 
     /*Datastore*/
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -154,7 +155,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     /*Map*/
-    implementation("ru.mail.maps:mapkit:1.0.308")
+    implementation("ru.mail.maps:mapkit:1.0.312")
 
 
     /*Http-request*/
@@ -179,10 +180,15 @@ dependencies {
     implementation ("com.vk:android-sdk-api:4.1.0")
 
     /*Yandex*/
-    implementation ("com.yandex.android:authsdk:3.0.0")
+    implementation ("com.yandex.android:authsdk:3.1.0")
 
     /*chart*/
-    implementation("com.carlosgub.kotlinm.charts:charts:1.0.4")
+    implementation("io.github.koalaplot:koalaplot-core:0.4.0")
+
+    /*glance*/
+    implementation ("androidx.glance:glance-appwidget:1.0.0")
+    implementation ("androidx.glance:glance-material3:1.0.0")
+
 
     /*Test*/
     testImplementation("junit:junit:4.13.2")

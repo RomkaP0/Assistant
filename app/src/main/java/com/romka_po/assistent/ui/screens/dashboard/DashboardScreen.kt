@@ -6,11 +6,15 @@
 package com.romka_po.assistent.ui.screens.dashboard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -23,6 +27,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -30,8 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romka_po.assistent.databinding.VkmapBinding
@@ -39,10 +47,11 @@ import com.romka_po.assistent.ui.components.shared.HorizontalBottomCard
 import com.romka_po.assistent.ui.components.shared.TopWithBottomCard
 import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 
+private val periods = listOf("Day", "Week", "Month")
 
 @Composable
 fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
-    val viewModel:DashboardViewModel = hiltViewModel()
+    val viewModel: DashboardViewModel = hiltViewModel()
     TopWithBottomCard(Modifier, state = state, height, content = {
         AndroidViewBinding(
             modifier = Modifier
@@ -57,7 +66,9 @@ fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
         }
     }) {
         Column(
-            modifier = Modifier.padding().verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .padding()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top)
 
         ) {
@@ -66,18 +77,21 @@ fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 VerticalBottomCard(modifier = Modifier.weight(1f), color = Color.Unspecified) {
-                    Text(text = "Distance", style = MaterialTheme.typography.displaySmall)
-                    Text(text = "543535")
+                    Text(text = "Record", style = MaterialTheme.typography.displaySmall)
+                    Text(text = "Driving")
+
                 }
                 VerticalBottomCard(modifier = Modifier.weight(1f), color = Color.Green) {
-                    Text(text = "States", style = MaterialTheme.typography.displaySmall)
-                    Text(text = "Good")
+                    Text(text = "Healthy", style = MaterialTheme.typography.displaySmall)
+                    Text(text = "State")
                 }
+
             }
             val context = LocalContext.current
-            HorizontalBottomCard(modifier = Modifier.clickable {
+            HorizontalBottomCard(
+                modifier = Modifier.clickable {
 
-            },
+                },
                 color = MaterialTheme.colorScheme.tertiaryContainer
             ) {
                 Icon(
@@ -89,6 +103,60 @@ fun DashboardScreen(state: BottomSheetScaffoldState, height: MutableState<Dp>) {
                     text = "Приобрести Премиум - доступ",
                     style = MaterialTheme.typography.titleMedium
                 )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+
+                ) {
+                VerticalBottomCard(modifier = Modifier.weight(1f), color = Color.Green) {
+                    Text(text = "Lada", style = MaterialTheme.typography.displaySmall)
+                    Text(text = "Granta")
+                }
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(16.dp))
+                        .padding(1.dp)
+                        .border(2.dp, Color.Blue, RoundedCornerShape(16.dp))
+                        .padding(start = 16.dp, end = 4.dp)
+                ) {
+                    Column(modifier = Modifier.fillMaxHeight().weight(1f), verticalArrangement = Arrangement.SpaceEvenly) {
+                        Text(text = "700", style = MaterialTheme.typography.displaySmall)
+                        Text(text = "Kilometers")
+                    }
+                    VerticalDivider(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(horizontal = 4.dp)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        horizontalAlignment = Alignment.End,
+                    ) {
+                        periods.forEachIndexed { index, s ->
+                            TextButton(
+                                modifier = Modifier.height(height = 20.dp).padding(0.dp),
+                                onClick = { /*TODO*/ },
+                                contentPadding = PaddingValues(1.dp)
+                            ) {
+                                Text(
+                                    text = s,
+                                    style = TextStyle(
+                                        fontSize = 14.sp,
+                                        color = if (index == 0) MaterialTheme.colorScheme.primary else Color.Unspecified
+                                    )
+                                )
+                            }
+
+                        }
+                    }
+                }
+
             }
             Spacer(modifier = Modifier.height(1000.dp))
         }

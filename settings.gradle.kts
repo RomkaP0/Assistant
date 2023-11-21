@@ -13,6 +13,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev"))
+
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/carlosgub/kotlinm-charts")

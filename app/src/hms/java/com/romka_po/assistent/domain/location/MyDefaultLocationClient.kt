@@ -5,12 +5,10 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
-import android.util.Log
 import com.huawei.hms.location.LocationCallback
 import com.huawei.hms.location.LocationRequest
 import com.huawei.hms.location.LocationResult
 import com.huawei.hms.location.LocationServices
-
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -43,7 +41,6 @@ class MyDefaultLocationClient(
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     super.onLocationResult(p0)
-                    Log.i("serviceMy", "${p0.locations.lastOrNull()?.latitude}")
                     p0.locations.lastOrNull()?.let {
                         launch {
                             send(it)

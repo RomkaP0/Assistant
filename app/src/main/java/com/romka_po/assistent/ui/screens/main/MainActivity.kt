@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -30,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -114,6 +118,20 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background),
                 ) {
+                    if (showNavBarState.value) {
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .zIndex(10f)
+                                .padding(top = 14.dp, end = 22.dp)
+                                .size(40.dp),
+                            onClick = { navController.navigate(Screens.Account.route) }) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = null
+                            )
+                        }
+                    }
                     val scope = this
                     height.value = scope.maxHeight.value.dp
                     AppNavHost(

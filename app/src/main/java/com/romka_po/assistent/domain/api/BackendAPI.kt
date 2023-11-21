@@ -21,12 +21,12 @@ interface BackendAPI {
         @Path("id") markId: String
     ): List<NetworkModel>
 
-    @POST("users/password")
+    @POST("users/password/send")
     suspend fun sendAuthPassword(
         @Body user: User
     )
 
-    @POST("users/token")
+    @POST("users/token/send")
     suspend fun sendAuthToken(
         @Body token: String
     )

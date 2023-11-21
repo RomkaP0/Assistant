@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.romka_po.assistent.ui.screens.auth
+package com.romka_po.assistent.ui.screens.register
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -56,8 +56,8 @@ import com.yandex.authsdk.YandexAuthToken
 import kotlinx.coroutines.launch
 
 @Composable
-fun AuthScreen(navController: NavHostController) {
-    val viewModel: AuthViewModel = hiltViewModel()
+fun RegisterScreen(navController: NavHostController) {
+    val viewModel: RegisterViewModel = hiltViewModel()
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
     val currentAuthSDK = remember { mutableIntStateOf(-1) }
@@ -91,13 +91,13 @@ fun AuthScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Hello!",
+                text = "Welcome!",
                 style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
             )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = "Sign in",
+                text = "Sign up",
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
             )
@@ -118,8 +118,13 @@ fun AuthScreen(navController: NavHostController) {
                 if (page == 0) {
                     currentAuthSDK.intValue = -1
                     AuthField(
-                        viewModel.emailState,
+                        viewModel.loginState,
                         position = PositionInColumn.TOP,
+                        InputType.LOGIN
+                    )
+                    AuthField(
+                        viewModel.emailState,
+                        position = PositionInColumn.MIDDLE,
                         InputType.EMAIL
                     )
                     AuthField(
@@ -196,7 +201,7 @@ fun AuthScreen(navController: NavHostController) {
                     },
                     contentPadding = PaddingValues(horizontal = 56.dp, vertical = 16.dp)
                 ) {
-                    Text(text = "Sign in now", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Sign up now", style = MaterialTheme.typography.titleMedium)
                 }
                 if (page == 0) {
                     FilledIconButton(
@@ -217,8 +222,8 @@ fun AuthScreen(navController: NavHostController) {
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextButton(onClick = { navController.navigate(Screens.Register.route) }) {
-                Text(text = "Sign up")
+            TextButton(onClick = {navController.navigateUp() }) {
+                Text(text = "Sign in")
             }
         }
     }
@@ -226,7 +231,7 @@ fun AuthScreen(navController: NavHostController) {
 //    BottomAuthDialog()
 }
 
-private fun handleResult(result: Any?, viewModel: AuthViewModel, navController: NavHostController) {
+private fun handleResult(result: Any?, viewModel: RegisterViewModel, navController: NavHostController) {
     when (result) {
         is Result<*> -> {
             result.fold(

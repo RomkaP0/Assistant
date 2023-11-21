@@ -1,52 +1,38 @@
+@file:OptIn(ExperimentalKoalaPlotApi::class)
+
 package com.romka_po.assistent.ui.screens.stats
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.carlosgub.kotlinm.charts.ChartAnimation
-import com.carlosgub.kotlinm.charts.bar.BarChart
-import com.carlosgub.kotlinm.charts.bar.BarChartCategory
-import com.carlosgub.kotlinm.charts.bar.BarChartConfig
-import com.carlosgub.kotlinm.charts.bar.BarChartData
-import com.carlosgub.kotlinm.charts.bar.BarChartEntry
+import androidx.compose.ui.tooling.preview.Preview
+import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 
+private val YAxisRange = 0f..25f
+private val XAxisRange = 0.5f..8.5f
+//private fun barChartEntries(): List<List<Float, Float>> {
+//    return listOf(
+//        listOf()
+//    )
+//}
+@Preview
 @Composable
-fun StatsScreen(){
-    val barChartData = BarChartData(
-        categories = listOf(
-            BarChartCategory(
-                name = "Bar Chart 1",
-                entries = listOf(
-                    BarChartEntry(
-                        x = "primary",
-                        y = 17f,
-                        color = Color.Yellow,
-                    ),
-                    BarChartEntry(
-                        x = "secondary",
-                        y = 30f,
-                        color = Color.Red,
-                    ),
-                )
-            ),
-
-        )
-    )
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        BarChart(
-            data = barChartData,
-            config = BarChartConfig(
-                thickness = 14.dp,
-                cornerRadius = 7.dp,
-            ),
-            modifier = Modifier.height(500.dp),
-            animation = ChartAnimation.Sequenced(),
-        )
-    }
+fun StatsScreen() {
+//
+//    ChartLayout {
+//        XYChart(
+//            xAxisModel = LinearAxisModel(
+//                XAxisRange,
+//                minimumMajorTickIncrement = 1f,
+//                minimumMajorTickSpacing = 10.dp,
+//                zoomRangeLimit = 3f,
+//                minorTickCount = 0
+//            ),
+//            yAxisModel = LinearAxisModel(
+//                YAxisRange,
+//                minimumMajorTickIncrement = 1f,
+//                minorTickCount = 0
+//            ),
+//        ) {
+//            VerticalBarChart(series = barChartEntries())
+//        }
+//    }
 }

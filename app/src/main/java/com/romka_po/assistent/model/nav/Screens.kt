@@ -28,7 +28,12 @@ sealed class Screens(
 
     data object Auth :
         Screens("auth", R.string.auth, null)
+    data object Register :
+        Screens("register", R.string.register, null)
 
     data object Detail :
             Screens("detail", R.string.detail, null)
+
+    data object Account:
+            Screens("account", R.string.account, null)
 }

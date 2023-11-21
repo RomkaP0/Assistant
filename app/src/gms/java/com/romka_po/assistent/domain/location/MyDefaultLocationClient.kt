@@ -42,7 +42,6 @@ class MyDefaultLocationClient(
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     super.onLocationResult(p0)
-                    Log.i("serviceMy", "${p0.locations.lastOrNull()?.latitude}")
                     p0.locations.lastOrNull()?.let {
                         launch {
                             send(it)
