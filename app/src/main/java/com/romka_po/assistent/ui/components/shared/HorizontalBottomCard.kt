@@ -24,7 +24,6 @@ fun HorizontalBottomCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = padding.dp)
             .clip(RoundedCornerShape(corner.dp))
             .background(color.copy(0.4f))
             .padding(padding.dp),

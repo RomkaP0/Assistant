@@ -46,6 +46,7 @@ import com.romka_po.assistent.ui.components.auth.CardRadioButton
 import com.romka_po.assistent.ui.components.auth.InputType
 import com.romka_po.assistent.ui.components.auth.PositionInColumn
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import com.vk.api.sdk.auth.VKScope
 import com.yandex.authsdk.YandexAuthException
@@ -77,10 +78,6 @@ fun AuthScreen(navController: NavHostController) {
     ) { result ->
         handleResult(result, viewModel, navController)
     }
-
-
-
-
 
     HorizontalPager(state = pagerState) { page ->
 
@@ -179,7 +176,6 @@ fun AuthScreen(navController: NavHostController) {
                 }
                 Button(
                     onClick = {
-//                        navController.navigate(Screens.DashBoard.route)
                         if (page == 0) {
                             viewModel.sendAuthPassword(
                                 email = viewModel.emailState.value,
@@ -190,7 +186,6 @@ fun AuthScreen(navController: NavHostController) {
                             when (currentAuthSDK.intValue) {
                                 0 -> launcher.launch(loginOptions)
                                 1 -> authLauncher.launch(arrayListOf(VKScope.EMAIL))
-
                             }
                         }
                     },
@@ -248,7 +243,7 @@ private fun handleResult(result: Any?, viewModel: AuthViewModel, navController: 
         is VKAuthenticationResult -> {
             when (result) {
                 is VKAuthenticationResult.Success -> {
-
+                    viewModel.sendAuthToken(VKAccessToken.KEYS[0])
                 }
 
                 is VKAuthenticationResult.Failed -> {

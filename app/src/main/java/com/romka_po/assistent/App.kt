@@ -37,7 +37,7 @@ class App: Application(), Configuration.Provider {
 
         MapGlobalConfig.setMapGlobalConfig(
             MapViewConfig(
-                apiKey = "RS62725a01b2f3438f845134ee0d554736edda1e4234c62208271e1a11814d53"
+                apiKey = "RS62725a01b2f3438f845134ee0d554736edda1e4234c62208271e1a11814d53",
             )
         )
 

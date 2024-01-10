@@ -13,4 +13,8 @@ interface CarMakeDAO {
 
     @Query("Select * from LocalMake")
     fun getMakes():Flow<List<LocalMake>>
+
+    @Query("Select * from LocalMake where name like '%' || :query || '%' or cyrillicName like '%' || :query || '%'")
+    fun searchLike(query:String):List<LocalMake>
+
 }

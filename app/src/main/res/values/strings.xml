@@ -9,5 +9,6 @@
     <string name="detail">Подробности</string>
     <string name="register">Register</string>
     <string name="account">Аккаунт</string>
+    <string name="health">health</string>
     <integer name="com_vk_sdk_AppId">51592154</integer>
 </resources>

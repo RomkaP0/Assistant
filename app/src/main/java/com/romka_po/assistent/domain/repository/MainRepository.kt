@@ -31,4 +31,6 @@ interface MainRepository {
     suspend fun sendAuthPassword(user: User)
 
     suspend fun sendAuthToken(token:String)
+    suspend fun searchModels(query: String): Flow<List<LocalModel>>
+    fun getDistanceAfter(since:Long):Flow<Double>
 }

@@ -12,9 +12,9 @@ sealed class Screens(
     data object DashBoard :
         Screens("dashboard", R.string.dashboard, R.drawable.dashboard_fill1_wght400_grad0_opsz48)
 
-    data object Catalog : Screens(
-        "catalog",
-        R.string.catalog, R.drawable.format_list_bulleted_fill0_wght400_grad0_opsz48
+    data object Health : Screens(
+        "health",
+        R.string.health, R.drawable.monitor_heart_fill1_wght400_grad0_opsz24
     )
 
     data object Settings :

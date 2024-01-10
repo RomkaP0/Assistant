@@ -6,6 +6,7 @@ import com.romka_po.assistent.domain.local.DatastoreManager
 import com.romka_po.assistent.domain.local.room.AppDatabase
 import com.romka_po.assistent.domain.local.room.CarMakeDAO
 import com.romka_po.assistent.domain.local.room.CarModelDAO
+import com.romka_po.assistent.domain.local.room.LocationDAO
 import com.romka_po.assistent.domain.repository.LocalDataLayer
 import dagger.Module
 import dagger.Provides
@@ -26,8 +27,12 @@ object LocalDataModule {
 
     @Singleton
     @Provides
-    fun provideLocalDataLayer(carMakeDAO: CarMakeDAO, carModelDAO: CarModelDAO): LocalDataLayer =
-        LocalDataLayer(carMakeDAO, carModelDAO)
+    fun provideLocalDataLayer(
+        carMakeDAO: CarMakeDAO,
+        carModelDAO: CarModelDAO,
+        locationDAO: LocationDAO
+    ): LocalDataLayer =
+        LocalDataLayer(carMakeDAO, carModelDAO, locationDAO)
 
     @Singleton
     @Provides
@@ -40,6 +45,12 @@ object LocalDataModule {
     fun provideCarModelsDao(
         database: AppDatabase
     ): CarModelDAO = database.getModelDAO()
+
+    @Singleton
+    @Provides
+    fun provideLocationDao(
+        database: AppDatabase
+    ): LocationDAO = database.getLocationDAO()
 
     @Singleton
     @Provides

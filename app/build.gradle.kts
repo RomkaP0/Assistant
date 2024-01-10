@@ -88,11 +88,11 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.0-beta01"
+    val compose = "1.6.0-beta02"
     val composeBom = "2023.10.01"
     val activityCompose = "1.8.1"
 
-    val material3 = "1.2.0-alpha11"
+    val material3 = "1.2.0-alpha12"
 
     val navigation = "2.7.5"
 
@@ -100,7 +100,7 @@ dependencies {
 
     val retrofit = "2.9.0"
 
-    val room = "2.6.0"
+    val room = "2.6.1"
 
     val hiltAndroid = "1.1.0"
 
@@ -108,7 +108,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
 
     /*Compose*/
@@ -139,10 +139,10 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:$hiltAndroid")
 
     implementation ("com.google.dagger:hilt-android:$hilt")
-    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
-    implementation("androidx.work:work-runtime-ktx:2.9.0-rc01")
-    implementation("androidx.work:work-runtime:2.9.0-rc01")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-runtime:2.9.0")
     implementation("androidx.hilt:hilt-work:$hiltAndroid")
 
     ksp ("com.google.dagger:hilt-android-compiler:$hilt")
@@ -155,7 +155,10 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     /*Map*/
-    implementation("ru.mail.maps:mapkit:1.0.312")
+    implementation("ru.mail.maps:mapkit:1.1.23")
+
+    /*Kotlin DateTime*/
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
 
     /*Http-request*/
@@ -194,5 +197,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation("com.google.maps.android:maps-utils-ktx:5.0.0")
 
 }
