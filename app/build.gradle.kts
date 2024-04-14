@@ -88,13 +88,13 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.0-beta02"
+    val compose = "1.6.5"
     val composeBom = "2023.10.01"
-    val activityCompose = "1.8.1"
+    val activityCompose = "1.8.2"
 
-    val material3 = "1.2.0-alpha12"
+    val material3 = "1.2.1"
 
-    val navigation = "2.7.5"
+    val navigation = "2.7.7"
 
     val hilt = "2.48.1"
 
@@ -102,11 +102,11 @@ dependencies {
 
     val room = "2.6.1"
 
-    val hiltAndroid = "1.1.0"
+    val hiltAndroid = "1.2.0"
 
 
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
@@ -171,8 +171,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room")
 
     /*GMS*/
-    "gmsImplementation" ("com.google.android.gms:play-services-location:21.0.1")
-    "gmsImplementation" ("com.google.android.gms:play-services-auth:20.7.0")
+    "gmsImplementation" ("com.google.android.gms:play-services-location:21.2.0")
+    "gmsImplementation" ("com.google.android.gms:play-services-auth:21.0.0")
 
     /*HMS*/
     "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")

@@ -177,10 +177,10 @@ fun AuthScreen(navController: NavHostController) {
                 Button(
                     onClick = {
                         if (page == 0) {
-                            viewModel.sendAuthPassword(
-                                email = viewModel.emailState.value,
-                                password = viewModel.passwordState.value
-                            )
+//                            viewModel.sendAuthPassword(
+//                                email = viewModel.emailState.value,
+//                                password = viewModel.passwordState.value
+//                            )
                             navController.navigate(Screens.DashBoard.route)
                         } else {
                             when (currentAuthSDK.intValue) {

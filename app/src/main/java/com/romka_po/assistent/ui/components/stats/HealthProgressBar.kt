@@ -6,6 +6,8 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,15 +35,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HealthProgressBar(
+    modifier:Modifier = Modifier,
     canvasSize: Dp = 300.dp,
     indicatorValue: Int = 84,
     maxIndicatorValue: Int = 100,
     backgroundIndicatorColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-    backgroundIndicatorStrokeWidth: Float = 100f,
+    backgroundIndicatorStrokeWidth: Float = 70f,
     foregroundIndicatorColor: Color = MaterialTheme.colorScheme.primary,
-    foregroundIndicatorStrokeWidth: Float = 100f,
-//    indicatorStrokeCap: StrokeCap = StrokeCap.Round,
-    bigTextFontSize: TextUnit = MaterialTheme.typography.displaySmall.fontSize,
+    foregroundIndicatorStrokeWidth: Float = 70f,
+    bigTextFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
     bigTextColor: Color = MaterialTheme.colorScheme.onSurface,
     bigTextSuffix: String = "%",
 ) {
@@ -81,7 +83,7 @@ fun HealthProgressBar(
     )
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .size(canvasSize)
             .drawBehind {
                 val componentSize = size / 1.25f
@@ -115,7 +117,6 @@ fun DrawScope.backgroundIndicator(
     componentSize: Size,
     indicatorColor: Color,
     indicatorStrokeWidth: Float,
-//    indicatorStokeCap: StrokeCap
 ) {
     drawArc(
         size = componentSize,
