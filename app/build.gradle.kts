@@ -186,7 +186,7 @@ dependencies {
     implementation ("com.yandex.android:authsdk:3.1.0")
 
     /*chart*/
-    implementation("io.github.koalaplot:koalaplot-core:0.4.0")
+    implementation("io.github.koalaplot:koalaplot-core:0.5.4")
 
     /*glance*/
     implementation ("androidx.glance:glance-appwidget:1.0.0")

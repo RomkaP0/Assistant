@@ -77,8 +77,8 @@ fun StoryScreen(navController: NavHostController) {
             Column(modifier = Modifier.weight(1f).padding(top = 14.dp, bottom = 80.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = when (page) {
-                        0 -> "Explore your routes"
-                        1 -> "Manage car`s resources"
+                        0 -> "Анализируй маршруты"
+                        1 -> "Управляй ресурсами"
                         else -> "Prevent repairing"
                     },
                     style = MaterialTheme.typography.displayLarge,
@@ -87,7 +87,7 @@ fun StoryScreen(navController: NavHostController) {
 
                 Text(
                     modifier = Modifier.padding(top = 30.dp),
-                    text = "Let`s start here!",
+                    text = "Перейти далее",
                     style = MaterialTheme.typography.titleLarge
                 )
 

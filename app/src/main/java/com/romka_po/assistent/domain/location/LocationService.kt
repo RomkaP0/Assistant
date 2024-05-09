@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.romka_po.assistent.R
 import com.romka_po.assistent.domain.repository.MainRepositoryImpl
@@ -51,13 +50,12 @@ class LocationService: Service(
     private fun start() {
 
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle("Tracking Location")
-            .setContentText("Location: null")
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle("Запись местоположения")
+            .setContentText("Расстояние: null")
+            .setSmallIcon(R.drawable.bar_chart_fill0_wght400_grad0_opsz48)
             .setOngoing(true)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        Log.i("repk", "start: $repository")
         repository.getUpdatedLocation(
             myLocationClient, notification, notificationManager, serviceScope
         )

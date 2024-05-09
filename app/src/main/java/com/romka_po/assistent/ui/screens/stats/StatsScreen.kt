@@ -2,6 +2,7 @@
 
 package com.romka_po.assistent.ui.screens.stats
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,8 +27,10 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerFormatter
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -52,30 +55,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import io.github.koalaplot.core.ChartLayout
-import io.github.koalaplot.core.bar.BarChartEntry
-import io.github.koalaplot.core.bar.DefaultBarChartEntry
-import io.github.koalaplot.core.bar.VerticalBarChart
+import io.github.koalaplot.core.bar.DefaultVerticalBarPlotEntry
+import io.github.koalaplot.core.bar.DefaultVerticalBarPosition
+import io.github.koalaplot.core.bar.VerticalBarPlot
+import io.github.koalaplot.core.bar.VerticalBarPlotEntry
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
-import io.github.koalaplot.core.xychart.LinearAxisModel
-import io.github.koalaplot.core.xychart.XYChart
+import io.github.koalaplot.core.xygraph.XYGraph
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-private val YAxisRange = 0f..22f
-private val XAxisRange = 0.5f..9f
+private val YAxisRange = 0f..500f
+private val YAxisRange2 = 0f..100f
+private val XAxisRange = 2f..33f
 
-internal val fibonacci = mutableStateListOf(1.0f, 1.0f, 2.0f, 3.0f, 5.0f, 8.0f, 13.0f, 21.0f)
+internal val fibonacci = mutableStateListOf(100f, 100f, 235f, 347f, 487f, 21f)
+internal val avgSpeed = mutableStateListOf(68f, 53f, 41f, 48f, 37f, 71f)
 
-private fun barChartEntries(): List<BarChartEntry<Float, Float>> {
+private fun barChartEntries(): List<VerticalBarPlotEntry<Float, Float>> {
     return buildList {
         fibonacci.forEachIndexed { index, fl ->
             add(
-                DefaultBarChartEntry(
-                    xValue = (index + 1).toFloat(),
-                    yMin = 0f,
-                    yMax = fl,
+                DefaultVerticalBarPlotEntry(
+                    x = (index + 1)*5.toFloat(),
+                    y = DefaultVerticalBarPosition(
+                        yMin = 0f,
+                        yMax = fl,
+                    )
+                )
+            )
+        }
+    }
+}
+private fun barChartEntries2(): List<VerticalBarPlotEntry<Float, Float>> {
+    return buildList {
+        avgSpeed.forEachIndexed { index, fl ->
+            add(
+                DefaultVerticalBarPlotEntry(
+                    x = (index + 1)*5.toFloat(),
+                    y = DefaultVerticalBarPosition(
+                        yMin = 0f,
+                        yMax = fl,
+                    )
                 )
             )
         }
@@ -97,9 +119,8 @@ fun StatsScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(
-            24.dp, Alignment.Top
-        ), horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PrimaryTabRow(
             modifier = Modifier.padding(horizontal = 20.dp),
@@ -142,7 +163,8 @@ fun StatsScreen() {
                             Periods.WEEK.ordinal -> "${Instant.fromEpochMilliseconds(datePickerState.selectedDateMillis!! - 604800000).toLocalDateTime(
                                 TimeZone.currentSystemDefault()).dayOfMonth} ${Instant.fromEpochMilliseconds(datePickerState.selectedDateMillis!! - 604800000).toLocalDateTime(
                                 TimeZone.currentSystemDefault()).month.toString().substring(0,3)} - ${localDate.dayOfMonth} ${localDate.month.toString().substring(0, 3)}".lowercase()
-                            Periods.MONTH.ordinal -> localDate.month.toString().substring(0, 3).lowercase()
+//                            Periods.MONTH.ordinal -> localDate.month.toString().substring(0, 3).lowercase()
+                            Periods.MONTH.ordinal -> "Апрель"
                             Periods.YEAR.ordinal -> localDate.year.toString()
                             else -> ""
                         }
@@ -170,28 +192,93 @@ fun StatsScreen() {
                 contentDescription = null
             )
         }
-        ChartLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(2f)
-
-
-        ) {
-            XYChart(
-                xAxisModel = LinearAxisModel(
-                    XAxisRange,
-                    minimumMajorTickIncrement = 1f,
-                    minimumMajorTickSpacing = 10.dp,
-                    zoomRangeLimit = 3f,
-                    minorTickCount = 0
-                ),
-                yAxisModel = LinearAxisModel(
-                    YAxisRange,
-                    minimumMajorTickIncrement = 1f,
-                    minorTickCount = 0
-                ),
+        ElevatedCard(modifier = Modifier.padding(horizontal = 8.dp), shape = RoundedCornerShape(16.dp)) {
+            ChartLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1.6f)
+                    .padding(horizontal = 4.dp).padding(top = 16.dp, bottom = 4.dp)
             ) {
-                VerticalBarChart(series = listOf(barChartEntries()))
+                XYGraph(
+                    xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                        XAxisRange,
+                        minimumMajorTickIncrement = 5f,
+                        minimumMajorTickSpacing = 4.dp,
+                        zoomRangeLimit = 3f,
+                        minorTickCount = 0
+                    ),
+                    xAxisLabels = { x -> "${x.toInt()}" },
+                    xAxisTitle = "День",
+                    yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                        YAxisRange,
+                        minimumMajorTickIncrement = 1f,
+                        zoomRangeLimit = 3f,
+                        minorTickCount = 0,
+                        minimumMajorTickSpacing = 40.dp
+                    ),
+                    yAxisTitle = "Расстояние, км",
+                    content = {
+                        VerticalBarPlot(
+                            data = barChartEntries(),
+                            bar = {
+                                Box(
+                                    modifier = Modifier
+                                        .width(50.dp)
+                                        .height(200.dp)
+                                        .background(
+                                            MaterialTheme.colorScheme.primary.copy(0.8f),
+                                            RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+                                        )
+                                )
+                            },
+                        )
+                    }
+                )
+            }
+        }
+
+        ElevatedCard(modifier = Modifier.padding(horizontal = 8.dp), shape = RoundedCornerShape(16.dp)) {
+            ChartLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1.6f)
+                    .padding(horizontal = 4.dp).padding(top = 16.dp, bottom = 4.dp)
+            ) {
+                XYGraph(
+                    xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                        XAxisRange,
+                        minimumMajorTickIncrement = 5f,
+                        minimumMajorTickSpacing = 4.dp,
+                        zoomRangeLimit = 3f,
+                        minorTickCount = 0
+                    ),
+                    xAxisLabels = { x -> "${x.toInt()}" },
+                    xAxisTitle = "День",
+                    yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                        YAxisRange2,
+                        minimumMajorTickIncrement = 1f,
+                        zoomRangeLimit = 3f,
+                        minorTickCount = 0,
+                        minimumMajorTickSpacing = 40.dp
+                    ),
+                    yAxisTitle = "Скорость, км/ч",
+                    content = {
+                        VerticalBarPlot(
+                            data = barChartEntries2(),
+                            bar = {
+                                Box(
+                                    modifier = Modifier
+                                        .width(50.dp)
+                                        .height(200.dp)
+                                        .background(
+                                            MaterialTheme.colorScheme.primary.copy(0.8f),
+                                            RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+                                        )
+                                )
+                            },
+                        )
+                    }
+                )
             }
         }
         

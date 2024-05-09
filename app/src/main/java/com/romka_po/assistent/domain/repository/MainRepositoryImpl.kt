@@ -86,11 +86,11 @@ class MainRepositoryImpl @Inject constructor(
                     )
                 } else {
                     val now = System.currentTimeMillis()
-                    currentTrack = Track(now, now, 0.0, listOf(LocalLatLon(lat, long)))
-                    currentTrack
+                    Track(now, now, 0.0, listOf(LocalLatLon(lat, long)))
                 }
                 saveTrack()
-                val updateNotification = notification.setContentText("Location: ($lat, $long)")
+//                val updateNotification = notification.setContentText("Расстояние: ${currentTrack?.distance} км")
+                val updateNotification = notification.setContentText("Расстояние: ${7.4} км")
                 notificationManager.notify(1, updateNotification.build())
             }
             .launchIn(serviceScope)
