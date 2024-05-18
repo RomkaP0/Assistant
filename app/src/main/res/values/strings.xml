@@ -2,6 +2,7 @@
     <string name="app_name">Assistent</string>
     <string name="dashboard">Главная</string>
     <string name="settings">Настройки</string>
+    <string name="catalog">Каталог</string>
     <string name="stats">Статистика</string>
     <string name="story">Истории</string>
     <string name="auth">Авторизация</string>
@@ -9,4 +10,5 @@
     <string name="register">Register</string>
     <string name="account">Аккаунт</string>
     <string name="health">Здоровье</string>
+    <integer name="com_vk_sdk_AppId">51592154</integer>
 </resources>

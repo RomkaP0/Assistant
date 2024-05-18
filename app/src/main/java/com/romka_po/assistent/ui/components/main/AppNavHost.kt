@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.romka_po.assistent.model.nav.Screens
-import com.romka_po.assistent.ui.screens.AccountScreen
 import com.romka_po.assistent.ui.screens.auth.AuthScreen
 import com.romka_po.assistent.ui.screens.dashboard.DashboardScreen
 import com.romka_po.assistent.ui.screens.detail.DetailScreen
@@ -31,7 +30,8 @@ fun AppNavHost(
             DashboardScreen(navController)
         }
         composable(Screens.Settings.route){
-            SettingsScreen()
+            showNavBarState.value = true
+            SettingsScreen(navController)
         }
         composable(Screens.Health.route){
             HealthScreen()
@@ -54,10 +54,6 @@ fun AppNavHost(
         composable(Screens.Detail.route){
             showNavBarState.value = false
             DetailScreen(navController)
-        }
-        composable(Screens.Account.route){
-            showNavBarState.value = false
-            AccountScreen(navController)
         }
     }
 }

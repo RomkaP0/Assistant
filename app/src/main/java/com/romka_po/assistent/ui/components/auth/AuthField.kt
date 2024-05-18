@@ -62,9 +62,9 @@ fun AuthField(
     }
 
     val text = when (type) {
-        InputType.EMAIL -> "Email"
-        InputType.LOGIN -> "Login"
-        InputType.PASSWORD -> "Password"
+        InputType.EMAIL -> "Электронная почта"
+        InputType.LOGIN -> "Имя"
+        InputType.PASSWORD -> "Пароль"
     }
     TextField(
         modifier = Modifier

@@ -2,6 +2,7 @@
 
 package com.romka_po.assistent.ui.screens.settings
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,11 +21,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.DirectionsCarFilled
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -33,16 +41,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.romka_po.assistent.R
 import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.account.ColumnLine
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(navController: NavHostController) {
     val typesTheme = TypeTheme.entries.toTypedArray()
 
     val viewModel: SettingsViewModel = hiltViewModel()
@@ -53,17 +69,54 @@ fun SettingsScreen() {
 
     var isSheetOpen by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .padding(24.dp)
-            .verticalScroll(rememberScrollState()),
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Image(
+            modifier = Modifier
+                .padding(top = 14.dp, bottom = 12.dp)
+                .fillMaxWidth(0.4f)
+                .aspectRatio(1f)
+                .align(Alignment.CenterHorizontally)
+                .clip(RoundedCornerShape(100.dp))
+                .background(Color.Blue),
+            painter = painterResource(id = R.drawable.aaa),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "Roman Polyanskiy",
+            style = TextStyle(
+                fontSize = 24.sp,
+                lineHeight = 28.8.sp,
+                fontWeight = FontWeight(700),
+                color = Color(0xFF212121),
+            )
+        )
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 8.dp),
+            text = "roman.kradyk@gmail.com",
 
-        ) {
+            )
+        HorizontalDivider(modifier = Modifier.padding(vertical = 24.dp))
+        ColumnLine(text = "Редактировать профиль", icon = Icons.Outlined.PersonOutline, false) {
+
+        }
+        ColumnLine(text = "VAZ Granta", icon = Icons.Outlined.DirectionsCarFilled, false) {
+
+        }
+
+        ColumnLine(text = "Нотификация", icon = Icons.Outlined.Notifications, false) {
+
+        }
+        ColumnLine(text = "Безопасность", icon = Icons.Outlined.Shield, false) {
+
+        }
         ColumnLine(text = "Оформление", icon = Icons.Outlined.DarkMode, red = false) {
             isSheetOpen = true
         }
-        ColumnLine(text = "Разрешения", icon = Icons.Outlined.Shield, red = false) {
-
+        ColumnLine(text = "Выйти из профиля", icon = Icons.AutoMirrored.Outlined.Logout, true) {
         }
     }
     if (isSheetOpen) {
@@ -85,9 +138,7 @@ fun SettingsScreen() {
                                     if (typeTheme == currentTheme.value) MaterialTheme.colorScheme.primary else Color.Transparent,
                                     RoundedCornerShape(16.dp)
                                 )
-                                .padding(2.dp)
-                            ,
-
+                                .padding(2.dp),
                             colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
 
                         ) {

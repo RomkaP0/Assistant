@@ -79,9 +79,9 @@ fun StoryScreen(navController: NavHostController) {
                     text = when (page) {
                         0 -> "Анализируй маршруты"
                         1 -> "Управляй ресурсами"
-                        else -> "Prevent repairing"
+                        else -> "Предотвращай поломки"
                     },
-                    style = MaterialTheme.typography.displayLarge,
+                    style = MaterialTheme.typography.displayMedium,
                     textAlign = TextAlign.Center
                 )
 
@@ -111,7 +111,7 @@ fun StoryScreen(navController: NavHostController) {
                         navController.navigate(Screens.Auth.route)
                     }) {
                         Text(
-                            text = "Start exploration",
+                            text = "Присоединиться",
                             letterSpacing = TextUnit(1f, TextUnitType.Sp),
                             style = MaterialTheme.typography.titleMedium
                         )

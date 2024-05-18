@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -88,25 +89,13 @@ fun AuthScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Hello!",
-                style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
-            )
-            Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = "Sign in",
+                text = "Вход",
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
             )
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = "Please fill your information",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
-            )
             Column(
-                modifier = Modifier
-                    .weight(1f),
+                modifier = Modifier.weight(1f).padding(top = 48.dp),
                 verticalArrangement = Arrangement.spacedBy(
                     16.dp,
                     alignment = Alignment.CenterVertically
@@ -126,27 +115,18 @@ fun AuthScreen(navController: NavHostController) {
                     )
                 } else {
                     CardRadioButton(
-                        ImageVector.vectorResource(id = R.drawable.icons8_google),
-                        "Google",
+                        ImageVector.vectorResource(id = R.drawable.icons8_vkontakte),
+                        "VK",
                         0,
                         currentAuthSDK,
                         PositionInColumn.TOP
                     )
                     CardRadioButton(
-                        ImageVector.vectorResource(id = R.drawable.icons8_vkontakte),
-                        "VK",
-                        1,
-                        currentAuthSDK,
-                        PositionInColumn.MIDDLE
-
-                    )
-                    CardRadioButton(
                         ImageVector.vectorResource(id = R.drawable.icons8_yandex),
                         "Yandex",
-                        2,
+                        1,
                         currentAuthSDK,
                         PositionInColumn.BOTTOM
-
                     )
                 }
             }
@@ -191,7 +171,7 @@ fun AuthScreen(navController: NavHostController) {
                     },
                     contentPadding = PaddingValues(horizontal = 56.dp, vertical = 16.dp)
                 ) {
-                    Text(text = "Sign in now", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Войти", style = MaterialTheme.typography.titleMedium)
                 }
                 if (page == 0) {
                     FilledIconButton(
@@ -213,7 +193,7 @@ fun AuthScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
             TextButton(onClick = { navController.navigate(Screens.Register.route) }) {
-                Text(text = "Sign up")
+                Text(text = "Регистрация")
             }
         }
     }

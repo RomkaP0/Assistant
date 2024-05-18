@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ColumnLine(text: String, icon: ImageVector, red: Boolean, clickFunc: () -> Unit){
     val color = Color(0xFFF75555)
-    Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).clickable { clickFunc() }.padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).clickable { clickFunc() }.padding(vertical = 14.dp, horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(modifier = Modifier.size(28.dp), imageVector = icon, contentDescription = null, tint = if (red) color else LocalContentColor.current)
         Text(modifier = Modifier.padding(start = 20.dp), text = text, color = if (red) color else Color.Unspecified)
     }
