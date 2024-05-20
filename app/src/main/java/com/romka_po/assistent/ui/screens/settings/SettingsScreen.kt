@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -56,6 +57,9 @@ import androidx.navigation.NavHostController
 import com.romka_po.assistent.R
 import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.account.ColumnLine
+import com.romka_po.assistent.ui.theme.blueColorScheme
+import com.romka_po.assistent.ui.theme.brownSchemePair
+import com.romka_po.assistent.ui.theme.redColorScheme
 
 @Composable
 fun SettingsScreen(navController: NavHostController) {
@@ -63,9 +67,9 @@ fun SettingsScreen(navController: NavHostController) {
 
     val viewModel: SettingsViewModel = hiltViewModel()
 
-    val currentTheme = viewModel.currentTheme.collectAsState()
+    val currentTheme by viewModel.currentTheme.collectAsState()
 
-    val colorList = listOf(Color.Magenta, Color.Gray, Color.Red, Color.Blue, Color.Green, Color.Yellow).map { it.copy(alpha = 0.4f) }
+    val currentColorPosition by viewModel.currentColorPosition.collectAsState()
 
     var isSheetOpen by remember { mutableStateOf(false) }
 
@@ -125,7 +129,7 @@ fun SettingsScreen(navController: NavHostController) {
                 Text(text = "Тема оформления")
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    typesTheme.forEachIndexed { index, typeTheme ->
+                    typesTheme.forEach { typeTheme ->
                         ElevatedCard(
                             modifier = Modifier
                                 .weight(1f)
@@ -134,11 +138,11 @@ fun SettingsScreen(navController: NavHostController) {
                                     viewModel.changeTheme(typeTheme = typeTheme)
                                 }
                                 .border(
-                                    2.dp,
-                                    if (typeTheme == currentTheme.value) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                    4.dp,
+                                    if (typeTheme == currentTheme) MaterialTheme.colorScheme.primary else Color.Transparent,
                                     RoundedCornerShape(16.dp)
                                 )
-                                .padding(2.dp),
+                                .padding(4.dp),
                             colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
 
                         ) {
@@ -157,9 +161,20 @@ fun SettingsScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(text = "Основной цвет приложения")
                 Spacer(modifier = Modifier.height(8.dp))
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)){
-                    items(10){
-                        Box(modifier = Modifier.size(58.dp).clip(RoundedCornerShape(16.dp)).background(colorList[it]))
+                LazyRow(modifier = Modifier.fillMaxWidth().height(100.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Bottom){
+                    items(com.romka_po.assistent.ui.theme.Color.entries.toTypedArray()){
+                        val colorScheme = when(it) {
+                            com.romka_po.assistent.ui.theme.Color.BROWN -> brownSchemePair
+                            com.romka_po.assistent.ui.theme.Color.BLUE -> blueColorScheme
+                            com.romka_po.assistent.ui.theme.Color.RED -> redColorScheme
+                        }
+                        Box(
+                            modifier = Modifier
+                                .size(90.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(colorScheme.first.primary.copy(if (currentColorPosition == it.ordinal) 1f else 0.4f))
+                                .clickable { viewModel.changeColorPosition(it.ordinal) }
+                            )
                     }
                 }
                 Spacer(modifier = Modifier.height(40.dp))

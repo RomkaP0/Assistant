@@ -88,27 +88,27 @@ android {
 }
 
 dependencies {
-    val compose = "1.6.5"
-    val composeBom = "2023.10.01"
-    val activityCompose = "1.8.2"
+    val compose = "1.6.7"
+    val composeBom = "2024.05.00"
+    val activityCompose = "1.9.0"
 
     val material3 = "1.2.1"
 
     val navigation = "2.7.7"
 
-    val hilt = "2.48.1"
+    val hilt = "2.51.1"
 
-    val retrofit = "2.9.0"
+    val retrofit = "2.11.0"
 
     val room = "2.6.1"
 
     val hiltAndroid = "1.2.0"
 
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
 
     /*Compose*/
@@ -126,7 +126,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:${compose}")
 
     /*Coil*/
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
 
     /*Compose Test*/
@@ -149,7 +149,7 @@ dependencies {
     ksp("androidx.hilt:hilt-compiler:$hiltAndroid")
 
     /*Datastore*/
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     /*Navigation*/
     implementation("androidx.navigation:navigation-compose:$navigation")
@@ -158,7 +158,7 @@ dependencies {
     implementation("ru.mail.maps:mapkit:1.1.23")
 
     /*Kotlin DateTime*/
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
 
 
     /*Http-request*/
@@ -172,7 +172,7 @@ dependencies {
 
     /*GMS*/
     "gmsImplementation" ("com.google.android.gms:play-services-location:21.2.0")
-    "gmsImplementation" ("com.google.android.gms:play-services-auth:21.0.0")
+    "gmsImplementation" ("com.google.android.gms:play-services-auth:21.1.1")
 
     /*HMS*/
     "hmsImplementation" ("com.huawei.agconnect:agconnect-core:1.9.1.301")
@@ -186,7 +186,7 @@ dependencies {
     implementation ("com.yandex.android:authsdk:3.1.0")
 
     /*chart*/
-    implementation("io.github.koalaplot:koalaplot-core:0.5.4")
+    implementation("io.github.koalaplot:koalaplot-core:0.6.0")
 
     /*glance*/
     implementation ("androidx.glance:glance-appwidget:1.0.0")

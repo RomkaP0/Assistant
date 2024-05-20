@@ -1,6 +1,7 @@
 package com.romka_po.assistent.ui.components.auth
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -70,6 +71,7 @@ fun AuthField(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.onSecondary, shape = shape)
+            .border(4.dp, MaterialTheme.colorScheme.primary.copy(0.8f), shape = shape)
             .padding(24.dp),
         shape = RoundedCornerShape(8.dp),
         value = textValue.value,

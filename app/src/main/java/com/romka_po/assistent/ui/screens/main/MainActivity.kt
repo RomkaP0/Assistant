@@ -1,29 +1,29 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.romka_po.assistent.ui.screens.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,8 +33,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -44,7 +42,7 @@ import com.romka_po.assistent.model.theme.TypeTheme
 import com.romka_po.assistent.ui.components.main.AppNavHost
 import com.romka_po.assistent.ui.theme.AssistentTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -54,9 +52,31 @@ class MainActivity : ComponentActivity() {
         listOf(Screens.DashBoard, Screens.Health, Screens.Chart, Screens.Settings)
     private val viewModel: MainViewModel by viewModels()
 
-    private val currentTheme = mutableStateOf(TypeTheme.AUTO)
+    private var showUI by mutableStateOf(false)
+
+    private lateinit var isFirstLaunch: MutableState<Boolean>
+    private lateinit var startScreen:Screens
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener {
+            lifecycleScope.launch {
+                viewModel.isFirstOpen.collectLatest {
+                    if (it != null) {
+                        startScreen = when (it) {
+                            true -> Screens.Story
+                            else -> Screens.DashBoard
+                        }
+                        isFirstLaunch = mutableStateOf(it)
+                        showUI = true
+                    }
+                }
+            }
+            this@MainActivity::isFirstLaunch.isInitialized
+        }
+
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -68,18 +88,11 @@ class MainActivity : ComponentActivity() {
         )
         requestLocationPermission()
 
-        lifecycleScope.launch {
-            viewModel.currentTheme.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .distinctUntilChanged().collect {
-                    currentTheme.value = it
-                }
-        }
 
 //        MapKitFactory.initialize(this)
 
         setContent {
 
-            val height = remember { mutableStateOf(BottomSheetDefaults.SheetPeekHeight) }
             val navController = rememberNavController()
             val showNavBarState = remember {
                 mutableStateOf(true)
@@ -96,70 +109,63 @@ class MainActivity : ComponentActivity() {
 //
 //                }
 //            }
-            val startRoute = when {
-                viewModel.isFirstOpen.value -> Screens.Story
-                else -> Screens.DashBoard
-            }
-
-            AssistentTheme(
-                darkTheme = when (currentTheme.value) {
-                    TypeTheme.LIGHT -> false
-                    TypeTheme.DARK -> true
-                    TypeTheme.AUTO -> isSystemInDarkTheme()
-                }
-            ) {
-                // A surface container using the 'background' color from the theme
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background),
+            if (showUI) {
+                AssistentTheme(
+                    colorScheme = viewModel.currentColor.collectAsState().value,
+                    darkTheme = when (viewModel.currentTheme.collectAsState().value) {
+                        TypeTheme.LIGHT -> false
+                        TypeTheme.DARK -> true
+                        TypeTheme.AUTO, null -> isSystemInDarkTheme()
+                    }
                 ) {
-                    val scope = this
-                    height.value = scope.maxHeight.value.dp
-                    AppNavHost(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = navController,
-                        startRoute = startRoute,
-                        showNavBarState = showNavBarState
-                    )
-                    if (showNavBarState.value) {
-                        NavigationBar(
-                            Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(20.dp)
-                                .clip(
-                                    RoundedCornerShape(16.dp)
-                                )
-                        ) {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
-                            screens.forEach { screen ->
-                                NavigationBarItem(
-                                    selected = currentDestination?.route == screen.route,
-                                    label = { Text(text = stringResource(id = screen.stringId))},
-                                    alwaysShowLabel = false,
-                                    icon = {
-                                        Icon(
-                                            modifier = Modifier.size(24.dp),
-                                            imageVector = ImageVector.vectorResource(id = screen.drawableId!!),
-                                            contentDescription = null
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        AppNavHost(
+                            modifier = Modifier.fillMaxSize(),
+                            navController = navController,
+                            startRoute = startScreen,
+                            showNavBarState = showNavBarState
+                        )
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            if (showNavBarState.value) {
+                                NavigationBar(
+                                    Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .padding(20.dp)
+                                        .clip(
+                                            RoundedCornerShape(16.dp)
                                         )
-                                    },
-                                    onClick = {
-                                        navController.navigate(screen.route) {
-                                            // Pop up to the start destination of the graph to
-                                            // avoid building up a large stack of destinations
-                                            // on the back stack as users select items
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
-                                            }
-                                            // Avoid multiple copies of the same destination when
-                                            // reselecting the same item
-                                            launchSingleTop = true
-                                            // Restore state when reselecting a previously selected item
-                                            restoreState = false
-                                        }
-                                    })
+                                ) {
+                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                    val currentDestination = navBackStackEntry?.destination
+                                    screens.forEach { screen ->
+                                        NavigationBarItem(
+                                            selected = currentDestination?.route == screen.route,
+                                            label = { Text(text = stringResource(id = screen.stringId)) },
+                                            alwaysShowLabel = false,
+                                            icon = {
+                                                Icon(
+                                                    modifier = Modifier.size(24.dp),
+                                                    imageVector = ImageVector.vectorResource(id = screen.drawableId!!),
+                                                    contentDescription = null
+                                                )
+                                            },
+                                            onClick = {
+                                                navController.navigate(screen.route) {
+                                                    // Pop up to the start destination of the graph to
+                                                    // avoid building up a large stack of destinations
+                                                    // on the back stack as users select items
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    // Avoid multiple copies of the same destination when
+                                                    // reselecting the same item
+                                                    launchSingleTop = true
+                                                    // Restore state when reselecting a previously selected item
+                                                    restoreState = false
+                                                }
+                                            })
+                                    }
+                                }
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 package com.romka_po.assistent.ui.components.auth
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,6 +62,7 @@ fun CardRadioButton(
             .fillMaxWidth()
             .clip(shape)
             .background(MaterialTheme.colorScheme.onSecondary)
+            .border(4.dp, MaterialTheme.colorScheme.primary.copy(0.8f), shape = shape)
             .clickable {
                 currentAuthSDK.intValue = position
             }

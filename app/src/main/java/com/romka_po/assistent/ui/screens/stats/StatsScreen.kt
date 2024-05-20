@@ -17,12 +17,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -53,7 +56,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
+import com.romka_po.assistent.ui.components.shared.VerticalBottomCard
 import io.github.koalaplot.core.ChartLayout
 import io.github.koalaplot.core.bar.DefaultVerticalBarPlotEntry
 import io.github.koalaplot.core.bar.DefaultVerticalBarPosition
@@ -192,103 +196,133 @@ fun StatsScreen() {
                 contentDescription = null
             )
         }
-        ElevatedCard(modifier = Modifier.padding(horizontal = 8.dp), shape = RoundedCornerShape(16.dp)) {
-            ChartLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.6f)
-                    .padding(horizontal = 4.dp).padding(top = 16.dp, bottom = 4.dp)
-            ) {
-                XYGraph(
-                    xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
-                        XAxisRange,
-                        minimumMajorTickIncrement = 5f,
-                        minimumMajorTickSpacing = 4.dp,
-                        zoomRangeLimit = 3f,
-                        minorTickCount = 0
-                    ),
-                    xAxisLabels = { x -> "${x.toInt()}" },
-                    xAxisTitle = "День",
-                    yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
-                        YAxisRange,
-                        minimumMajorTickIncrement = 1f,
-                        zoomRangeLimit = 3f,
-                        minorTickCount = 0,
-                        minimumMajorTickSpacing = 40.dp
-                    ),
-                    yAxisTitle = "Расстояние, км",
-                    content = {
-                        VerticalBarPlot(
-                            data = barChartEntries(),
-                            bar = {
-                                Box(
-                                    modifier = Modifier
-                                        .width(50.dp)
-                                        .height(200.dp)
-                                        .background(
-                                            MaterialTheme.colorScheme.primary.copy(0.8f),
-                                            RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
-                                        )
-                                )
-                            },
-                        )
-                    }
-                )
-            }
-        }
 
-        ElevatedCard(modifier = Modifier.padding(horizontal = 8.dp), shape = RoundedCornerShape(16.dp)) {
-            ChartLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.6f)
-                    .padding(horizontal = 4.dp).padding(top = 16.dp, bottom = 4.dp)
+        Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                XYGraph(
-                    xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
-                        XAxisRange,
-                        minimumMajorTickIncrement = 5f,
-                        minimumMajorTickSpacing = 4.dp,
-                        zoomRangeLimit = 3f,
-                        minorTickCount = 0
-                    ),
-                    xAxisLabels = { x -> "${x.toInt()}" },
-                    xAxisTitle = "День",
-                    yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
-                        YAxisRange2,
-                        minimumMajorTickIncrement = 1f,
-                        zoomRangeLimit = 3f,
-                        minorTickCount = 0,
-                        minimumMajorTickSpacing = 40.dp
-                    ),
-                    yAxisTitle = "Скорость, км/ч",
-                    content = {
-                        VerticalBarPlot(
-                            data = barChartEntries2(),
-                            bar = {
-                                Box(
-                                    modifier = Modifier
-                                        .width(50.dp)
-                                        .height(200.dp)
-                                        .background(
-                                            MaterialTheme.colorScheme.primary.copy(0.8f),
-                                            RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
-                                        )
-                                )
-                            },
-                        )
-                    }
-                )
+                VerticalBottomCard(
+                    modifier = Modifier.weight(1f),
+                    color = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.secondary),
+                ) {
+                    Text(text = "Время", style = MaterialTheme.typography.headlineSmall)
+                    Text(text = "27ч 32мин")
+
+                }
+                VerticalBottomCard(
+                    modifier = Modifier.weight(1f),
+                    color = CardDefaults.elevatedCardColors(),
+                ) {
+                    Text(text = "Замены", style = MaterialTheme.typography.headlineSmall)
+                    Text(text = "3 шт")
+                }
+
+            }
+
+            ElevatedCard(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                ChartLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1.6f)
+                        .padding(horizontal = 4.dp)
+                        .padding(top = 16.dp, bottom = 4.dp)
+                ) {
+                    XYGraph(
+                        xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                            XAxisRange,
+                            minimumMajorTickIncrement = 5f,
+                            minimumMajorTickSpacing = 4.dp,
+                            zoomRangeLimit = 3f,
+                            minorTickCount = 0
+                        ),
+                        xAxisLabels = { x -> "${x.toInt()}" },
+                        xAxisTitle = "День",
+                        yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                            YAxisRange,
+                            minimumMajorTickIncrement = 1f,
+                            zoomRangeLimit = 3f,
+                            minorTickCount = 0,
+                            minimumMajorTickSpacing = 40.dp
+                        ),
+                        yAxisTitle = "Расстояние, км",
+                        content = {
+                            VerticalBarPlot(
+                                data = barChartEntries(),
+                                bar = {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .height(200.dp)
+                                            .background(
+                                                MaterialTheme.colorScheme.primary.copy(0.8f),
+                                                RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+                                            )
+                                    )
+                                },
+                            )
+                        }
+                    )
+                }
+            }
+
+            ElevatedCard(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                ChartLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1.6f)
+                        .padding(horizontal = 4.dp)
+                        .padding(top = 16.dp, bottom = 4.dp)
+                ) {
+                    XYGraph(
+                        xAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                            XAxisRange,
+                            minimumMajorTickIncrement = 5f,
+                            minimumMajorTickSpacing = 4.dp,
+                            zoomRangeLimit = 3f,
+                            minorTickCount = 0
+                        ),
+                        xAxisLabels = { x -> "${x.toInt()}" },
+                        xAxisTitle = "День",
+                        yAxisModel = io.github.koalaplot.core.xygraph.LinearAxisModel(
+                            YAxisRange2,
+                            minimumMajorTickIncrement = 1f,
+                            zoomRangeLimit = 3f,
+                            minorTickCount = 0,
+                            minimumMajorTickSpacing = 40.dp
+                        ),
+                        yAxisTitle = "Скорость, км/ч",
+                        content = {
+                            VerticalBarPlot(
+                                data = barChartEntries2(),
+                                bar = {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .height(200.dp)
+                                            .background(
+                                                MaterialTheme.colorScheme.primary.copy(0.8f),
+                                                RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+                                            )
+                                    )
+                                },
+                            )
+                        }
+                    )
+                }
             }
         }
-        
-//        HorizontalDivider(modifier = Modifier
-//            .fillMaxWidth(), thickness = 20.dp)
-//        Text(text = "Средняя скорость")
         if (openDateDialog) {
             val currentTime = Clock.System.now()
-
             DatePickerDialog(
+                modifier = Modifier.zIndex(20f),
                 onDismissRequest = { openDateDialog = false },
                 confirmButton = {
                     TextButton(onClick = {
@@ -303,8 +337,6 @@ fun StatsScreen() {
                         Text(text = "Dismiss")
                     }
                 },
-                properties = DialogProperties()
-
             ) {
                 val dateFormatter: DatePickerFormatter =
                     remember { DatePickerDefaults.dateFormatter() }

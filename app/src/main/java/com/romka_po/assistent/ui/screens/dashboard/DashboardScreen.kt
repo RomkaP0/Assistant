@@ -21,7 +21,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -140,14 +139,16 @@ fun DashboardScreen(navController: NavHostController) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             VerticalBottomCard(
-                modifier = Modifier.weight(1f)) {
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(text = "Статус", style = MaterialTheme.typography.headlineMedium)
                 Text(text = "Поездка")
 
             }
             VerticalBottomCard(
                 modifier = Modifier.weight(1f),
-                clickFunc = { navController.navigate(Screens.Health.route) }) {
+                clickFunc = { navController.navigate(Screens.Health.route) }
+            ) {
                 Text(text = "Хорошее", style = MaterialTheme.typography.headlineMedium)
                 Text(text = "Состояние")
             }
@@ -165,23 +166,19 @@ fun DashboardScreen(navController: NavHostController) {
                 Text(text = "Лада Гранта", style = MaterialTheme.typography.headlineMedium)
                 Text(text = "Личный автомобиль")
             }
-
-            ElevatedCard(
+            VerticalBottomCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-                    .clickable {
-                        navController.navigate(Screens.Chart.route)
-                    },
-                colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
+                    .padding(horizontal = 8.dp),
+                clickFunc = { navController.navigate(Screens.Chart.route) },
             ) {
-
                 Row(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-
                     Column(
-                        modifier = Modifier.fillMaxHeight().weight(1f),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
                     ) {
 //                        Text(text = viewModel.distance.doubleValue.toString(), style = MaterialTheme.typography.headlineMedium, maxLines = 1)
                         Text(text = "368.4 км", style = MaterialTheme.typography.headlineMedium, maxLines = 1)

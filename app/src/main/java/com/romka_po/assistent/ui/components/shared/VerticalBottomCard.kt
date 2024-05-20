@@ -2,8 +2,9 @@ package com.romka_po.assistent.ui.components.shared
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -16,17 +17,22 @@ import androidx.compose.ui.unit.dp
 fun VerticalBottomCard(
     modifier: Modifier = Modifier,
     padding: Int = 16,
+    color: CardColors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.onSecondary),
     clickFunc: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     ElevatedCard(
-        modifier = modifier
-            .clip(RoundedCornerShape(padding))
-            .clickable(enabled = clickFunc != null) { clickFunc?.let { it() } },
+        modifier = modifier,
         colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
 
     ) {
-        Column(modifier = Modifier.padding(padding.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(CardDefaults.elevatedShape)
+                .clickable(enabled = clickFunc != null, onClick = { clickFunc?.let { it() } })
+                .padding(padding.dp)
+        ) {
             content()
         }
     }

@@ -15,6 +15,7 @@ import ru.mail.maps.data.MapLocation
 interface MainRepository {
     val locationFlow: StateFlow<MapLocation>
     fun getTheme(): Flow<TypeTheme>
+    fun getColor(): Flow<Int>
     fun getUpdatedLocation(
         myLocationClient: LocationClient,
         notification: NotificationCompat.Builder,
@@ -24,6 +25,7 @@ interface MainRepository {
 
 
     suspend fun changeTheme(typeTheme: TypeTheme)
+    suspend fun changeColor(color: Int)
 
     suspend fun getMarks(): Flow<List<LocalMake>>
     suspend fun getModelsFromMark(makeId:String): Flow<List<LocalModel>>

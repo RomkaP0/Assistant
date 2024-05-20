@@ -41,9 +41,11 @@ class MainRepositoryImpl @Inject constructor(
     private val _locationFlow: MutableStateFlow<MapLocation> = MutableStateFlow(MapLocation())
     override val locationFlow: StateFlow<MapLocation> = _locationFlow.asStateFlow()
     override fun getTheme() = datastoreManager.themeSettingsFlow
+    override fun getColor() = datastoreManager.colorSettingsFlow
 
-    override suspend fun changeTheme(typeTheme: TypeTheme) =
-        datastoreManager.changeTheme(typeTheme = typeTheme)
+    override suspend fun changeTheme(typeTheme: TypeTheme) = datastoreManager.changeTheme(typeTheme)
+
+    override suspend fun changeColor(color: Int) = datastoreManager.changeColor(color)
 
     override suspend fun getMarks(): Flow<List<LocalMake>> {
         return localDataLayer.getMakes()
